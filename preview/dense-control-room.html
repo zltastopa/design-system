@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS Dense Control Room</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.16) 1.05px, transparent 0) 0 0 / 22px 22px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.56)),
+          #efede7;
+      }
+
+      .variant-dense {
+        --stopa-layout-max: 88rem;
+        --stopa-layout-gutter: 1rem;
+        --stopa-topbar-height: 4.125rem;
+        --stopa-radius-md: 1rem;
+        --stopa-radius-lg: 1.25rem;
+        --stopa-radius-xl: 1.5rem;
+        --stopa-space-4: 0.875rem;
+        --stopa-space-5: 1rem;
+        --stopa-space-6: 1.25rem;
+        --stopa-shadow-card: 0 14px 28px rgba(17, 17, 17, 0.06), 0 3px 9px rgba(17, 17, 17, 0.05);
+      }
+
+      .variant-dense .stopa-shell {
+        gap: 0.875rem;
+      }
+
+      .variant-dense .stopa-topbar {
+        position: sticky;
+        top: 1rem;
+        z-index: 10;
+        padding: 0.55rem 0.75rem;
+        border: 1px solid rgba(19, 19, 19, 0.16);
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 20px 44px rgba(17, 17, 17, 0.12), 0 3px 12px rgba(17, 17, 17, 0.06);
+      }
+
+      .variant-dense .stopa-brand-mark {
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: 0.85rem;
+      }
+
+      .variant-dense .stopa-tab,
+      .variant-dense .stopa-pill,
+      .variant-dense .stopa-button,
+      .variant-dense .stopa-chip {
+        min-height: 2.3rem;
+        padding-inline: 0.8rem;
+      }
+
+      .command-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(21rem, 0.9fr);
+        gap: 0.875rem;
+        align-items: stretch;
+      }
+
+      .command-panel,
+      .signal-panel {
+        border: 1px solid rgba(19, 19, 19, 0.12);
+        border-radius: 1.4rem;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0 12px 30px rgba(17, 17, 17, 0.08), 0 2px 10px rgba(17, 17, 17, 0.05);
+      }
+
+      .command-panel {
+        padding: 1rem;
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .command-copy {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+      }
+
+      .command-copy h2 {
+        margin: 0;
+        font: 800 clamp(1.4rem, 2vw, 2rem) / 0.95 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .command-copy p {
+        margin: 0;
+        max-width: 42rem;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .command-search {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        min-height: 4.9rem;
+        padding: 0.7rem 0.8rem 0.7rem 1rem;
+        border: 1px solid rgba(19, 19, 19, 0.1);
+        border-radius: 1.2rem;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 250, 226, 0.98));
+      }
+
+      .command-search strong {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 999px;
+        background: rgba(255, 196, 0, 0.18);
+      }
+
+      .command-search input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font: 650 clamp(1.15rem, 1.8vw, 1.55rem) / 1.1 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .command-actions {
+        display: flex;
+        gap: 0.55rem;
+        align-items: center;
+      }
+
+      .signal-panel {
+        padding: 0.9rem 1rem;
+        display: grid;
+        gap: 0.7rem;
+        align-content: start;
+      }
+
+      .signal-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+      }
+
+      .signal-meta strong {
+        font: 800 2.5rem/0.9 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .signal-list {
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .signal-item {
+        padding: 0.75rem 0.85rem;
+        border: 1px solid rgba(19, 19, 19, 0.08);
+        border-radius: 1rem;
+        background: rgba(248, 246, 241, 0.88);
+      }
+
+      .signal-item strong,
+      .signal-item p {
+        margin: 0;
+      }
+
+      .signal-item p {
+        margin-top: 0.25rem;
+        color: var(--stopa-color-text-soft);
+        font-size: 0.86rem;
+      }
+
+      .variant-dense .stopa-kpi-card {
+        min-height: 7.8rem;
+      }
+
+      .variant-dense .stopa-card,
+      .variant-dense .stopa-panel,
+      .variant-dense .stopa-table-shell {
+        padding: 1rem;
+      }
+
+      .dense-main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.6fr) minmax(19rem, 0.82fr);
+        gap: 0.875rem;
+      }
+
+      .mini-chart {
+        min-height: 12rem;
+      }
+
+      .detail-grid {
+        display: grid;
+        gap: 0.7rem;
+      }
+
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+      }
+
+      .detail-row:last-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .detail-row span:last-child {
+        color: var(--stopa-color-text-soft);
+      }
+
+      @media (max-width: 980px) {
+        .command-row,
+        .dense-main {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .command-copy {
+          flex-direction: column;
+          align-items: start;
+        }
+
+        .command-search {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app variant-dense" data-product="zmluvy">
+      <div class="stopa-shell">
+        <header class="stopa-topbar">
+          <div class="stopa-brand">
+            <div class="stopa-brand-mark">Z</div>
+            <div class="stopa-brand-copy">
+              <span class="stopa-eyebrow">Stopa OS / Dry Run C</span>
+              <h1 class="stopa-brand-title">Dense Control Room</h1>
+            </div>
+          </div>
+
+          <nav class="stopa-tabs">
+            <a class="stopa-tab stopa-tab-active" href="/">Prehlad</a>
+            <a class="stopa-tab" href="/">Zoznam</a>
+            <a class="stopa-tab" href="/">Hladat</a>
+            <a class="stopa-tab" href="/">Metodika</a>
+            <a class="stopa-tab" href="/">Dataset</a>
+          </nav>
+
+          <div class="stopa-actions">
+            <a class="stopa-pill" href="/">API</a>
+            <a class="stopa-button stopa-button-primary" href="/">Nahlasit signal</a>
+          </div>
+        </header>
+
+        <section class="command-row">
+          <div class="command-panel">
+            <div class="command-copy">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Forensic workspace</span>
+                <h2>Hladaj napriec celym CRZ bez balastu.</h2>
+              </div>
+              <p>Zmluvy, dodatky, firmy, ICO, poznamky a podozrive vzory. Search sits in the command deck, not below it.</p>
+            </div>
+
+            <div class="command-search">
+              <strong>⌕</strong>
+              <input type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+              <div class="command-actions">
+                <button class="stopa-chip stopa-chip-active">Vsetko</button>
+                <button class="stopa-chip">Dlznici</button>
+                <button class="stopa-chip">Dodatky</button>
+                <button class="stopa-button stopa-button-primary">Hladat</button>
+              </div>
+            </div>
+          </div>
+
+          <aside class="signal-panel">
+            <div class="signal-meta">
+              <span class="stopa-eyebrow">Live signals</span>
+              <strong>3 223</strong>
+            </div>
+
+            <div class="signal-list">
+              <div class="signal-item">
+                <strong>Debtor match</strong>
+                <p>332.8 mil. EUR across contracts linked to state debtors.</p>
+              </div>
+              <div class="signal-item">
+                <strong>Amendment spike</strong>
+                <p>Large value jumps detected after the base contract signature.</p>
+              </div>
+              <div class="signal-item">
+                <strong>Missing context</strong>
+                <p>Records with weak descriptions and attachment-heavy contracts.</p>
+              </div>
+            </div>
+          </aside>
+        </section>
+
+        <section class="stopa-grid-4">
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Zmluv celkom</span>
+            <p class="stopa-kpi-value">132 576</p>
+            <p class="stopa-kpi-label">Compact summary strip</p>
+          </article>
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Celkova hodnota</span>
+            <p class="stopa-kpi-value">10 016.9 mil. EUR</p>
+            <p class="stopa-kpi-label">Sharper cards, lower radius</p>
+          </article>
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Priemerna suma</span>
+            <p class="stopa-kpi-value">137 tis. EUR</p>
+            <p class="stopa-kpi-label">Dense but still calm</p>
+          </article>
+          <article class="stopa-card stopa-kpi-card stopa-accent-card">
+            <span class="stopa-eyebrow">Priority queue</span>
+            <p class="stopa-kpi-value">14</p>
+            <p class="stopa-kpi-label">Cases ready for manual verification</p>
+          </article>
+        </section>
+
+        <section class="dense-main">
+          <section class="stopa-table-shell">
+            <div class="stopa-table-head">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Primary surface</span>
+                <h3 class="stopa-panel-title">Suspicious records</h3>
+              </div>
+              <div class="stopa-filters">
+                <button class="stopa-chip stopa-chip-active">Aktivne</button>
+                <button class="stopa-chip">Export</button>
+              </div>
+            </div>
+
+            <div class="stopa-table-wrap">
+              <table class="stopa-table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Institution</th>
+                    <th>Amount</th>
+                    <th>Signal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td>Contract 46581</td>
+                    <td>Ministry of Interior</td>
+                    <td>412 000 EUR</td>
+                    <td>Debtor + amendment</td>
+                  </tr>
+                  <tr>
+                    <td>IT Framework</td>
+                    <td>State enterprise</td>
+                    <td>3 120 000 EUR</td>
+                    <td>High amount</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>188 000 EUR</td>
+                    <td>Value jump</td>
+                  </tr>
+                  <tr>
+                    <td>Facility support</td>
+                    <td>Regional office</td>
+                    <td>76 000 EUR</td>
+                    <td>Missing context</td>
+                  </tr>
+                  <tr>
+                    <td>Security contract</td>
+                    <td>District office</td>
+                    <td>96 000 EUR</td>
+                    <td>Weak description</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <div class="stopa-stack">
+            <article class="stopa-card stopa-accent-card stopa-stack">
+              <span class="stopa-eyebrow">Selected insight</span>
+              <h3 class="stopa-card-title">A smaller, sharper promoted block</h3>
+              <p class="stopa-card-copy">This version pushes the table first and keeps the side surfaces compact.</p>
+            </article>
+
+            <article class="stopa-card stopa-stack">
+              <span class="stopa-eyebrow">Trend panel</span>
+              <h3 class="stopa-card-title">Monthly anomaly watch</h3>
+              <div class="stopa-chart-placeholder mini-chart"></div>
+            </article>
+
+            <aside class="stopa-panel stopa-stack">
+              <span class="stopa-eyebrow">Record brief</span>
+              <h3 class="stopa-panel-title">Contract 46581</h3>
+              <div class="stopa-filters">
+                <span class="stopa-chip stopa-chip-active">Dlznik</span>
+                <span class="stopa-chip">Dodatok</span>
+              </div>
+              <div class="detail-grid">
+                <div class="detail-row"><span>Vendor</span><span>Example Services a.s.</span></div>
+                <div class="detail-row"><span>Amount</span><span>412 000 EUR</span></div>
+                <div class="detail-row"><span>Institution</span><span>Ministry of Interior</span></div>
+                <div class="detail-row"><span>Last update</span><span>2026-03-21 08:42</span></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

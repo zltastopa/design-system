@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS - Search-First Shell</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      :root {
+        --page-max: 86rem;
+        --shell-edge: rgba(19, 19, 19, 0.1);
+        --shell-edge-strong: rgba(19, 19, 19, 0.18);
+        --shell-shadow: 0 14px 34px rgba(17, 17, 17, 0.07), 0 2px 10px rgba(17, 17, 17, 0.04);
+        --shell-shadow-strong: 0 20px 54px rgba(17, 17, 17, 0.12), 0 4px 16px rgba(17, 17, 17, 0.06);
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.1) 1.05px, transparent 0) 0 0 / 22px 22px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.88)),
+          linear-gradient(135deg, rgba(255, 196, 0, 0.05), transparent 32%),
+          #f5f1e7;
+      }
+
+      .stopa-app {
+        min-height: 100vh;
+        padding: 1rem;
+      }
+
+      .airy-shell {
+        width: min(var(--page-max), calc(100vw - 3.5rem));
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.1rem;
+        padding-top: 5.3rem;
+      }
+
+      .airy-topbar {
+        position: fixed;
+        top: 0.82rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: min(var(--page-max), calc(100vw - 3.5rem));
+        z-index: 20;
+        min-height: 3.72rem;
+        padding: 0.48rem 0.72rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.22rem;
+        background: rgba(255, 255, 255, 0.93);
+        box-shadow: var(--shell-shadow-strong);
+        backdrop-filter: blur(18px);
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 0.82rem;
+        align-items: center;
+        align-self: stretch;
+      }
+
+      .airy-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.72rem;
+        min-width: 0;
+      }
+
+      .airy-logo-lockup {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .airy-logo-lockup img {
+        display: block;
+        width: 4.8rem;
+        height: auto;
+      }
+
+      .airy-brand-copy {
+        display: grid;
+        gap: 0.08rem;
+      }
+
+      .airy-title {
+        margin: 0;
+        font: 800 0.95rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .airy-sub {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: 700 0.72rem/1.05 var(--stopa-font-ui);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .airy-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+      }
+
+      .airy-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        justify-self: end;
+      }
+
+      .airy-pill,
+      .airy-tab,
+      .airy-action {
+        border-radius: 999px;
+        border: 1px solid var(--shell-edge);
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--stopa-color-text);
+        min-height: 2.14rem;
+        padding: 0 0.8rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.42rem;
+        text-decoration: none;
+        font: 700 0.83rem/1 var(--stopa-font-ui);
+        transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+      }
+
+      .airy-pill:hover,
+      .airy-tab:hover,
+      .airy-action:hover {
+        transform: translateY(-1px);
+        border-color: var(--shell-edge-strong);
+      }
+
+      .airy-tab-active,
+      .airy-action-primary {
+        background: var(--stopa-color-product-accent);
+        border-color: transparent;
+      }
+
+      .airy-search-jump {
+        width: 2.26rem;
+        height: 2.26rem;
+        padding: 0;
+        border-radius: 999px;
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .airy-search-jump svg {
+        width: 1.02rem;
+        height: 1.02rem;
+        stroke: currentColor;
+      }
+
+      .airy-hero {
+        display: grid;
+        gap: 1.8rem;
+        align-content: start;
+        min-height: 33vh;
+        padding: 1.2rem 0 1.2rem;
+      }
+
+      .airy-claim {
+        margin: 0;
+        justify-self: center;
+        max-width: 34rem;
+        text-align: center;
+        color: var(--stopa-color-text-soft);
+        font: 700 0.96rem/1.35 var(--stopa-font-ui);
+        letter-spacing: -0.01em;
+      }
+
+      .airy-search-wrap {
+        width: min(58rem, 100%);
+        justify-self: center;
+        display: grid;
+        gap: 1.25rem;
+        padding: 0.55rem 0 0.35rem;
+      }
+
+      .airy-search-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+        padding: 0 0.25rem;
+      }
+
+      .airy-search-label strong {
+        font: 800 0.75rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .airy-search-label span {
+        color: var(--stopa-color-text-faint);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .airy-shortcut-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.45rem;
+        color: var(--stopa-color-text-faint);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .airy-shortcut {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        height: 1.7rem;
+        padding: 0 0.45rem;
+        border: 1px solid rgba(19, 19, 19, 0.12);
+        border-bottom-color: rgba(19, 19, 19, 0.16);
+        border-radius: 0.65rem;
+        background: rgba(247, 243, 235, 0.92);
+        color: var(--stopa-color-text-soft);
+        font: 700 0.78rem/1 var(--stopa-font-mono);
+        letter-spacing: 0.01em;
+      }
+
+      .airy-search {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-height: 3.55rem;
+        padding: 0.42rem 0.5rem 0.42rem 0.72rem;
+        border: 1px solid var(--shell-edge-strong);
+        border-radius: 1rem;
+        background: rgba(251, 248, 241, 0.96);
+        cursor: text;
+      }
+
+      .airy-search-icon {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 999px;
+        background: rgba(255, 196, 0, 0.1);
+        color: var(--stopa-color-product-accent-strong);
+        display: grid;
+        place-items: center;
+        flex: 0 0 auto;
+      }
+
+      .airy-search-icon svg {
+        width: 1rem;
+        height: 1rem;
+        stroke: currentColor;
+      }
+
+      .airy-search input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--stopa-color-text);
+        font: 700 clamp(0.98rem, 1.45vw, 1.16rem) / 1.18 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .airy-search input::placeholder {
+        color: rgba(19, 19, 19, 0.42);
+      }
+
+      .airy-search-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+      }
+
+      .airy-filter-row {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        flex-wrap: wrap;
+        padding-top: 0.35rem;
+      }
+
+      .airy-filter-row .airy-tab,
+      .airy-filter-row .airy-action {
+        min-height: 2.2rem;
+        padding-inline: 0.82rem;
+      }
+
+      .airy-support {
+        margin: 0;
+        text-align: center;
+        max-width: 44rem;
+        justify-self: center;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+        padding-top: 0.35rem;
+      }
+
+      .airy-preview {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.95rem;
+        margin-top: 1rem;
+      }
+
+      .airy-card {
+        position: relative;
+        min-height: 8rem;
+        padding: 1.05rem 1.08rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.18rem;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .airy-card-highlight {
+        border-color: rgba(223, 158, 0, 0.24);
+        background:
+          linear-gradient(180deg, rgba(255, 249, 219, 0.52), rgba(255, 255, 255, 0.94));
+      }
+
+      .airy-card-highlight::before {
+        content: "";
+        position: absolute;
+        left: 1.08rem;
+        right: 1.08rem;
+        top: 0;
+        height: 0.28rem;
+        border-radius: 0 0 999px 999px;
+        background: var(--stopa-color-product-accent);
+      }
+
+      .airy-card strong {
+        display: block;
+        font: 800 clamp(1.45rem, 2vw, 2.15rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .airy-card span {
+        display: block;
+        margin-top: 0.36rem;
+        color: var(--stopa-color-text-soft);
+        font-size: 0.85rem;
+        line-height: 1.35;
+      }
+
+      .airy-content {
+        display: grid;
+        gap: 1.3rem;
+        margin-top: 0.35rem;
+      }
+
+      .airy-table-shell {
+        padding: 1.25rem 1.1rem 1.1rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.35rem;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .airy-table-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: end;
+        margin-bottom: 0.95rem;
+      }
+
+      .airy-table-head h3 {
+        margin: 0;
+        font: 800 1.12rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .airy-table-head p {
+        margin: 0.28rem 0 0;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .airy-table-wrap {
+        overflow: auto;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.05rem;
+        background: var(--stopa-color-surface);
+      }
+
+      .airy-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 56rem;
+      }
+
+      .airy-table th,
+      .airy-table td {
+        padding: 0.82rem 0.95rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+      }
+
+      .airy-table th {
+        position: sticky;
+        top: 0;
+        background: #faf7ef;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.73rem/1 var(--stopa-font-ui);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+      }
+
+      .airy-table tbody tr.is-selected {
+        box-shadow: inset 4px 0 0 var(--stopa-color-product-accent);
+        background: var(--stopa-color-product-accent-soft);
+      }
+
+      .airy-grid-2 {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.72rem;
+      }
+
+      .airy-grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .airy-note {
+        padding: 1rem 1.08rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.18rem;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .airy-note h3 {
+        margin: 0;
+        font: 800 1rem/1 var(--stopa-font-display);
+        letter-spacing: -0.035em;
+      }
+
+      .airy-note p {
+        margin: 0.35rem 0 0;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .airy-chart-card,
+      .airy-detail-card {
+        padding: 1rem 1.08rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.18rem;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .airy-chart-card .stopa-chart-placeholder {
+        min-height: 14rem;
+        margin-top: 0.8rem;
+      }
+
+      .airy-detail-list {
+        display: grid;
+        gap: 0.7rem;
+        margin-top: 0.8rem;
+      }
+
+      .airy-detail-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 0.65rem;
+        border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+      }
+
+      .airy-detail-row:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .airy-detail-row span:last-child {
+        color: var(--stopa-color-text-soft);
+      }
+
+      .airy-mini-table th,
+      .airy-mini-table td {
+        padding: 0.78rem 0.9rem;
+      }
+
+      @media (max-width: 980px) {
+        .airy-topbar {
+          grid-template-columns: auto 1fr;
+        }
+
+        .airy-nav {
+          grid-column: 1 / -1;
+          justify-content: start;
+        }
+
+        .airy-preview,
+        .airy-grid-2,
+        .airy-grid-3 {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .airy-table-head {
+          flex-direction: column;
+          align-items: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app">
+      <div class="airy-shell">
+        <header class="airy-topbar">
+          <div class="airy-brand">
+            <div class="airy-logo-lockup">
+              <img src="../zlta-stopa.svg" alt="Zlta Stopa" />
+            </div>
+            <div class="airy-brand-copy">
+              <span class="airy-sub">Stopa OS / Search-First Shell</span>
+              <h1 class="airy-title">Zmluvy</h1>
+            </div>
+          </div>
+
+          <nav class="airy-nav">
+            <a class="airy-tab airy-tab-active" href="/">Prehlad</a>
+            <a class="airy-tab" href="/">Zoznam</a>
+            <a class="airy-tab" href="/">Dalsie filtre</a>
+            <a class="airy-tab" href="/">Metodika</a>
+          </nav>
+
+          <div class="airy-actions">
+            <a class="airy-pill airy-search-jump" href="#search" aria-label="Jump to search">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="6" stroke-width="2" />
+                <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
+              </svg>
+            </a>
+            <a class="airy-action airy-action-primary" href="/">Dataset</a>
+          </div>
+        </header>
+
+        <section class="airy-hero">
+          <p class="airy-claim">Hladaj skor, nez sa to strati v sume.</p>
+
+          <div class="airy-search-wrap" id="search">
+            <div class="airy-search-label">
+              <strong>Search</strong>
+              <span class="airy-shortcut-wrap">
+                <span>Press</span>
+                <span class="airy-shortcut" aria-label="Keyboard shortcut slash">/</span>
+                <span>to focus search</span>
+              </span>
+            </div>
+
+              <div class="airy-search">
+                <div class="airy-search-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="11" cy="11" r="6" stroke-width="2" />
+                    <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
+                  </svg>
+                </div>
+                <input id="airy-search-input" type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+                <button class="airy-action airy-action-primary" type="button">Hladat</button>
+              </div>
+
+              <div class="airy-filter-row">
+                <button class="airy-tab airy-tab-active" type="button">Vsetko</button>
+                <button class="airy-tab" type="button">Dlznici</button>
+                <button class="airy-tab" type="button">Dodatky</button>
+                <button class="airy-tab" type="button">Velke sumy</button>
+                <button class="airy-tab" type="button">Prilohy</button>
+                <button class="airy-tab" type="button">Firmy</button>
+              </div>
+            </div>
+
+            <p class="airy-support">One short line, a clear query field, and enough space to invite action.</p>
+          </div>
+        </section>
+
+        <section class="airy-preview">
+          <article class="airy-card">
+            <span class="stopa-eyebrow">Zmluv celkom</span>
+            <strong>132 576</strong>
+            <span>Dense enough to read quickly, not tall enough to dominate the fold.</span>
+          </article>
+          <article class="airy-card">
+            <span class="stopa-eyebrow">Celkova hodnota</span>
+            <strong>10 016.9 mil. EUR</strong>
+            <span>Metrics stay visible, but the search still owns the page.</span>
+          </article>
+          <article class="airy-card">
+            <span class="stopa-eyebrow">Priemerna suma</span>
+            <strong>137 tis. EUR</strong>
+            <span>Calm numerals, compact hierarchy, no chart tax.</span>
+          </article>
+          <article class="airy-card airy-card-highlight">
+            <span class="stopa-eyebrow">Signal queue</span>
+            <strong>3 223</strong>
+            <span>Visible, but not louder than the search deck above.</span>
+          </article>
+        </section>
+
+        <section class="airy-content">
+          <section class="airy-table-shell">
+            <div class="airy-table-head">
+              <div>
+                <span class="stopa-eyebrow">Primary surface</span>
+                <h3>Podozrive zaznamy</h3>
+                <p>Full-width list view with room for the thing that matters.</p>
+              </div>
+              <div class="airy-search-actions">
+                <button class="airy-tab airy-tab-active" type="button">Aktivne</button>
+                <button class="airy-tab" type="button">Export</button>
+              </div>
+            </div>
+
+            <div class="airy-table-wrap">
+              <table class="airy-table">
+                <thead>
+                  <tr>
+                    <th>Nazov</th>
+                    <th>Rezort</th>
+                    <th>Dodavatel</th>
+                    <th>Suma</th>
+                    <th>Signal</th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td>Contract 46581</td>
+                    <td>Ministry of Interior</td>
+                    <td>Example Services a.s.</td>
+                    <td>412 000 EUR</td>
+                    <td>Dlznik + dodatok</td>
+                    <td>08:42</td>
+                  </tr>
+                  <tr>
+                    <td>IT Framework</td>
+                    <td>State enterprise</td>
+                    <td>Procure Group</td>
+                    <td>3 120 000 EUR</td>
+                    <td>High amount</td>
+                    <td>08:11</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>Transit Systems</td>
+                    <td>188 000 EUR</td>
+                    <td>Value jump</td>
+                    <td>07:48</td>
+                  </tr>
+                  <tr>
+                    <td>Security contract</td>
+                    <td>District office</td>
+                    <td>Shield SK</td>
+                    <td>96 000 EUR</td>
+                    <td>Weak description</td>
+                    <td>07:30</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="airy-grid-2">
+            <article class="airy-note">
+              <span class="stopa-eyebrow">Note</span>
+              <h3>Search deck stays airy, not tall.</h3>
+              <p>The prompt is prominent because of space, contrast, and rhythm, not because the control itself is oversized.</p>
+            </article>
+            <article class="airy-note">
+              <span class="stopa-eyebrow">Pattern</span>
+              <h3>Header only carries the jump icon.</h3>
+              <p>The actual query field sits below the header so the top bar stays light and the page feels operational.</p>
+            </article>
+          </section>
+
+          <section class="airy-grid-2">
+            <article class="airy-chart-card">
+              <span class="stopa-eyebrow">Trend panel</span>
+              <h3>Mesačný vývoj podozrivých vzorov</h3>
+              <div class="stopa-chart-placeholder"></div>
+            </article>
+
+            <aside class="airy-detail-card">
+              <span class="stopa-eyebrow">Selected record</span>
+              <h3>Contract 46581</h3>
+              <div class="airy-detail-list">
+                <div class="airy-detail-row"><span>Dodávateľ</span><span>Example Services a.s.</span></div>
+                <div class="airy-detail-row"><span>Suma</span><span>412 000 EUR</span></div>
+                <div class="airy-detail-row"><span>Signal</span><span>Dlžník + dodatok</span></div>
+                <div class="airy-detail-row"><span>Posledná zmena</span><span>2026-03-21 08:42</span></div>
+              </div>
+            </aside>
+          </section>
+
+          <section class="airy-table-shell">
+            <div class="airy-table-head">
+              <div>
+                <span class="stopa-eyebrow">Secondary surface</span>
+                <h3>Recent amendments</h3>
+                <p>Secondary working table so the page has real depth and scrolling behavior.</p>
+              </div>
+              <div class="airy-search-actions">
+                <button class="airy-tab airy-tab-active" type="button">Dodatky</button>
+                <button class="airy-tab" type="button">Export</button>
+              </div>
+            </div>
+
+            <div class="airy-table-wrap">
+              <table class="airy-table airy-mini-table">
+                <thead>
+                  <tr>
+                    <th>Zmluva</th>
+                    <th>Rezort</th>
+                    <th>Zmena sumy</th>
+                    <th>Dôvod</th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>+61 000 EUR</td>
+                    <td>Scope expansion</td>
+                    <td>07:48</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 04</td>
+                    <td>Interior</td>
+                    <td>+180 000 EUR</td>
+                    <td>Extended services</td>
+                    <td>07:21</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 19</td>
+                    <td>State enterprise</td>
+                    <td>+950 000 EUR</td>
+                    <td>Unclear note</td>
+                    <td>06:58</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="airy-grid-3">
+            <article class="airy-note">
+              <span class="stopa-eyebrow">Saved view</span>
+              <h3>Dlžníci štátu</h3>
+              <p>Quick scopes can live as chips above, while richer working views sit lower on the page.</p>
+            </article>
+            <article class="airy-note">
+              <span class="stopa-eyebrow">Method</span>
+              <h3>Signal scoring</h3>
+              <p>Debtors, amendments, missing descriptions, and attachment-heavy records roll into one ranking.</p>
+            </article>
+            <article class="airy-note">
+              <span class="stopa-eyebrow">Question</span>
+              <h3>What should go left later?</h3>
+              <p>Saved views, advanced filters, and pinned records are plausible candidates if a command rail appears.</p>
+            </article>
+          </section>
+        </section>
+      </div>
+    </main>
+    <script>
+      const airySearchInput = document.getElementById("airy-search-input");
+      const airySearchShell = document.querySelector(".airy-search");
+
+      document.addEventListener("keydown", (event) => {
+        if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.altKey) {
+          return;
+        }
+
+        const target = event.target;
+        const tagName = target?.tagName;
+        const isTypingTarget =
+          target?.isContentEditable ||
+          tagName === "INPUT" ||
+          tagName === "TEXTAREA" ||
+          tagName === "SELECT";
+
+        if (event.key === "/" && !isTypingTarget) {
+          event.preventDefault();
+          airySearchInput?.focus();
+          airySearchInput?.select();
+        }
+      });
+
+      airySearchShell?.addEventListener("click", (event) => {
+        if (event.target.closest("button")) {
+          return;
+        }
+
+        airySearchInput?.focus();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS Baseline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+  </head>
+  <body>
+    <main class="stopa-app" data-product="zmluvy">
+      <div class="stopa-shell">
+        <header class="stopa-topbar">
+          <div class="stopa-brand">
+            <div class="stopa-brand-mark">Z</div>
+            <div class="stopa-brand-copy">
+              <span class="stopa-eyebrow">Stopa OS</span>
+              <h1 class="stopa-brand-title">Zmluvy</h1>
+            </div>
+          </div>
+
+          <nav class="stopa-tabs">
+            <a class="stopa-tab stopa-tab-active" href="/">Prehlad</a>
+            <a class="stopa-tab" href="/">Zoznam</a>
+            <a class="stopa-tab" href="/">Hladat</a>
+            <a class="stopa-tab" href="/">Metodika</a>
+          </nav>
+
+          <div class="stopa-actions">
+            <a class="stopa-pill" href="/">Dataset</a>
+            <a class="stopa-button stopa-button-primary" href="/">Nahlasit signal</a>
+          </div>
+        </header>
+
+        <section class="stopa-hero">
+          <span class="stopa-eyebrow">Calm and dense dashboard shell</span>
+          <h2 class="stopa-display">Documents first. Noise last.</h2>
+          <p class="stopa-lead">
+            Shared OS shell for Zlta Stopa dashboards. Neutral dotted grid, tactile surfaces, compact hierarchy,
+            one accent rail pattern, and enough structure to feel deliberate across products.
+          </p>
+        </section>
+
+        <section class="stopa-searchbar">
+          <input type="search" placeholder="Search contract, ICO, ministry, note, attachment" />
+          <div class="stopa-filters">
+            <button class="stopa-chip stopa-chip-active">Vsetko</button>
+            <button class="stopa-chip">Dodatky</button>
+            <button class="stopa-chip">Dlznici</button>
+            <button class="stopa-chip">Velke sumy</button>
+            <button class="stopa-button stopa-button-primary">Hladat</button>
+          </div>
+        </section>
+
+        <section class="stopa-grid-4">
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Zmluv celkom</span>
+            <p class="stopa-kpi-value">132 576</p>
+            <p class="stopa-kpi-label">Cisty a prehladny vstup do CRZ dat</p>
+          </article>
+
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Celkova hodnota</span>
+            <p class="stopa-kpi-value">10 016.9 mil. EUR</p>
+            <p class="stopa-kpi-label">Silna typografia pre top metrics</p>
+          </article>
+
+          <article class="stopa-card stopa-kpi-card">
+            <span class="stopa-eyebrow">Priemerna suma</span>
+            <p class="stopa-kpi-value">137 tis. EUR</p>
+            <p class="stopa-kpi-label">Neutrals first, accent only where needed</p>
+          </article>
+
+          <article class="stopa-card stopa-kpi-card stopa-accent-card">
+            <span class="stopa-eyebrow">Signal</span>
+            <p class="stopa-kpi-value">3 223</p>
+            <p class="stopa-kpi-label">Left accent rail for promoted insight blocks</p>
+          </article>
+        </section>
+
+        <section class="stopa-grid-3">
+          <article class="stopa-card stopa-accent-card stopa-stack">
+            <span class="stopa-eyebrow">Suite pattern</span>
+            <h3 class="stopa-card-title">Promoted insight block</h3>
+            <p class="stopa-card-copy">
+              Reuse this on alerts, contextual insights, selected records, and editorial callouts.
+            </p>
+          </article>
+
+          <article class="stopa-card stopa-stack">
+            <span class="stopa-eyebrow">Chart shell</span>
+            <h3 class="stopa-card-title">Quiet around the data</h3>
+            <div class="stopa-chart-placeholder"></div>
+          </article>
+
+          <aside class="stopa-panel stopa-stack">
+            <span class="stopa-eyebrow">Detail panel</span>
+            <h3 class="stopa-panel-title">Selected record</h3>
+            <p class="stopa-panel-copy">
+              Compact metadata, evidence links, and semantic states should live in the same rounded shell language.
+            </p>
+            <div class="stopa-filters">
+              <span class="stopa-chip stopa-chip-active">Dlznik</span>
+              <span class="stopa-chip">Dodatok</span>
+            </div>
+            <p class="stopa-panel-copy">Vendor: Example Services a.s.</p>
+            <p class="stopa-panel-copy">Amount: 412 000 EUR</p>
+            <p class="stopa-panel-copy">Ministry: Interior</p>
+          </aside>
+        </section>
+
+        <section class="stopa-table-shell">
+          <div class="stopa-table-head">
+            <div class="stopa-stack">
+              <span class="stopa-eyebrow">Table shell</span>
+              <h3 class="stopa-panel-title">Suspicious records</h3>
+            </div>
+
+            <div class="stopa-filters">
+              <button class="stopa-chip stopa-chip-active">Aktivne</button>
+              <button class="stopa-chip">Export</button>
+            </div>
+          </div>
+
+          <div class="stopa-table-wrap">
+            <table class="stopa-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Institution</th>
+                  <th>Amount</th>
+                  <th>Signal</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="is-selected">
+                  <td>Contract 46581</td>
+                  <td>Ministry of Interior</td>
+                  <td>412 000 EUR</td>
+                  <td>Debtor + amendment</td>
+                </tr>
+                <tr>
+                  <td>IT Framework</td>
+                  <td>State enterprise</td>
+                  <td>3 120 000 EUR</td>
+                  <td>High amount</td>
+                </tr>
+                <tr>
+                  <td>Amendment 12</td>
+                  <td>Transport office</td>
+                  <td>188 000 EUR</td>
+                  <td>Value jump</td>
+                </tr>
+                <tr>
+                  <td>Facility support</td>
+                  <td>Regional office</td>
+                  <td>76 000 EUR</td>
+                  <td>Missing context</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS - Search Study Minimal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      :root {
+        --shell-edge: rgba(19, 19, 19, 0.1);
+        --shell-edge-strong: rgba(19, 19, 19, 0.18);
+        --shell-shadow: 0 16px 36px rgba(17, 17, 17, 0.08), 0 4px 14px rgba(17, 17, 17, 0.04);
+        --shell-shadow-strong: 0 22px 56px rgba(17, 17, 17, 0.12), 0 6px 18px rgba(17, 17, 17, 0.06);
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.1) 1.05px, transparent 0) 0 0 / 22px 22px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.94)),
+          #f3f0e5;
+      }
+
+      .search-minimal {
+        padding: 0.9rem;
+      }
+
+      .search-minimal-shell {
+        width: min(94rem, calc(100vw - 1.8rem));
+        margin: 0 auto;
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 20;
+        min-height: 4rem;
+        padding: 0.6rem 0.76rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.35rem;
+        background: rgba(255, 255, 255, 0.94);
+        box-shadow: var(--shell-shadow-strong);
+        backdrop-filter: blur(16px);
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        gap: 0.9rem;
+        align-items: center;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 0;
+      }
+
+      .mark {
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: 0.78rem;
+        background: var(--stopa-color-product-accent);
+        display: grid;
+        place-items: center;
+        color: var(--stopa-color-text);
+        font: 800 0.98rem/1 var(--stopa-font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .brand-copy {
+        display: grid;
+        gap: 0.08rem;
+      }
+
+      .brand-title {
+        margin: 0;
+        font: 800 0.98rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .brand-sub {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+      }
+
+      .pill,
+      .tab,
+      .action,
+      .jump {
+        border-radius: 999px;
+        border: 1px solid var(--shell-edge);
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--stopa-color-text);
+        min-height: 2.3rem;
+        padding: 0 0.86rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.42rem;
+        text-decoration: none;
+        font: 700 0.86rem/1 var(--stopa-font-ui);
+        transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+      }
+
+      .pill:hover,
+      .tab:hover,
+      .action:hover,
+      .jump:hover {
+        transform: translateY(-1px);
+        border-color: var(--shell-edge-strong);
+      }
+
+      .tab-active,
+      .action-primary {
+        background: var(--stopa-color-product-accent);
+        border-color: transparent;
+      }
+
+      .jump {
+        width: 2.45rem;
+        padding: 0;
+      }
+
+      .jump svg {
+        width: 1rem;
+        height: 1rem;
+        stroke: currentColor;
+      }
+
+      .search-stage {
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.75fr);
+        gap: 0.85rem;
+        align-items: start;
+        min-height: clamp(15rem, 26vh, 18.5rem);
+        padding: 0.9rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.5rem;
+        background:
+          radial-gradient(circle at top right, rgba(255, 196, 0, 0.12), transparent 30%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(251, 248, 239, 0.94));
+        box-shadow: var(--shell-shadow);
+      }
+
+      .command {
+        display: grid;
+        align-content: start;
+        gap: 0.55rem;
+        padding: 0.3rem 0 0.15rem;
+      }
+
+      .kicker {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.72rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .claim {
+        margin: 0;
+        max-width: 16ch;
+        font: 800 clamp(2.3rem, 4.8vw, 4.8rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.055em;
+      }
+
+      .claim-sub {
+        margin: 0;
+        max-width: 42ch;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-lg);
+      }
+
+      .search-card {
+        display: grid;
+        gap: 0.55rem;
+        align-content: center;
+        justify-items: stretch;
+        padding: 0.9rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.25rem;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .search-label {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.8rem;
+        align-items: baseline;
+      }
+
+      .search-label strong {
+        font: 800 0.73rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .search-label span {
+        color: var(--stopa-color-text-faint);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .searchbox {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        min-height: 3.6rem;
+        padding: 0.58rem 0.7rem 0.58rem 0.85rem;
+        border: 1px solid var(--shell-edge-strong);
+        border-radius: 1rem;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(252, 248, 241, 0.98)),
+          rgba(255, 255, 255, 0.95);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      }
+
+      .search-icon {
+        width: 2.35rem;
+        height: 2.35rem;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 196, 0, 0.16);
+        color: var(--stopa-color-product-accent-strong);
+        flex: 0 0 auto;
+      }
+
+      .search-icon svg {
+        width: 1rem;
+        height: 1rem;
+        stroke: currentColor;
+      }
+
+      .searchbox input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--stopa-color-text);
+        font: 700 clamp(1rem, 1.6vw, 1.25rem) / 1.2 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .searchbox input::placeholder {
+        color: rgba(19, 19, 19, 0.42);
+      }
+
+      .search-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .search-actions .chip,
+      .search-actions .action {
+        min-height: 2.2rem;
+        padding-inline: 0.82rem;
+        border-radius: 999px;
+      }
+
+      .signal-strip {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.7rem;
+      }
+
+      .signal-strip .stopa-card {
+        min-height: 6.35rem;
+        padding: 0.82rem 0.92rem;
+      }
+
+      .signal-strip .stopa-eyebrow {
+        font-size: 0.68rem;
+      }
+
+      .signal-strip strong {
+        display: block;
+        margin: 0.25rem 0 0;
+        font: 800 clamp(1.45rem, 2vw, 2.15rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .signal-strip p {
+        margin: 0.34rem 0 0;
+        color: var(--stopa-color-text-soft);
+        font-size: 0.83rem;
+        line-height: 1.35;
+      }
+
+      .stage {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .table-shell {
+        padding: 0.88rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.3rem;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .table-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: end;
+        margin-bottom: 0.7rem;
+      }
+
+      .table-head h3,
+      .table-head p {
+        margin: 0;
+      }
+
+      .table-head h3 {
+        font: 800 1.1rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .table-head p {
+        color: var(--stopa-color-text-soft);
+        font-size: 0.9rem;
+      }
+
+      .table-tools {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+        justify-content: end;
+      }
+
+      .table-wrap {
+        overflow: auto;
+        border: 1px solid rgba(19, 19, 19, 0.08);
+        border-radius: 1rem;
+        background: #fff;
+      }
+
+      .table {
+        width: 100%;
+        min-width: 56rem;
+        border-collapse: collapse;
+      }
+
+      .table th,
+      .table td {
+        padding: 0.82rem 0.92rem;
+        text-align: left;
+        border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+      }
+
+      .table th {
+        position: sticky;
+        top: 0;
+        background: #faf8f2;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.72rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.7);
+      }
+
+      .table tbody tr.is-selected {
+        background: var(--stopa-color-product-accent-soft);
+        box-shadow: inset 4px 0 0 var(--stopa-color-product-accent);
+      }
+
+      @media (max-width: 980px) {
+        .topbar,
+        .search-stage {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .nav {
+          justify-content: start;
+        }
+
+        .signal-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .table-head {
+          flex-direction: column;
+          align-items: start;
+        }
+
+        .table-tools {
+          justify-content: start;
+        }
+
+        .claim {
+          max-width: 12ch;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .signal-strip {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app search-minimal" data-product="zmluvy">
+      <div class="search-minimal-shell">
+        <header class="topbar">
+          <div class="brand">
+            <div class="mark">Z</div>
+            <div class="brand-copy">
+              <span class="stopa-eyebrow">Stopa OS / Search Study</span>
+              <h1 class="brand-title">Zmluvy</h1>
+            </div>
+          </div>
+
+          <nav class="nav">
+            <a class="tab tab-active" href="/">Prehlad</a>
+            <a class="tab" href="/">Zoznam</a>
+            <a class="tab" href="/">Dalsie filtre</a>
+            <a class="tab" href="/">Metodika</a>
+          </nav>
+
+          <div class="search-jump">
+            <button class="jump" type="button" aria-label="Jump to search">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="11" cy="11" r="6.5" stroke-width="1.8"></circle>
+                <path d="M16 16L20 20" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+            </button>
+            <a class="action action-primary" href="/">Dataset</a>
+          </div>
+        </header>
+
+        <section class="search-stage">
+          <div class="command">
+            <p class="kicker">Search first, the rest follows</p>
+            <p class="claim-sub">Rychly vstup do CRZ bez balastu. Zmluvy, dodatky, firmy, ICO, poznamky a prilohy v jednej brane.</p>
+            <p class="claim-sub">Press <strong>/</strong> or use the header icon to start searching.</p>
+          </div>
+
+          <div class="search-card">
+            <div class="search-label">
+              <strong>Search</strong>
+              <span>Prominent, not oversized</span>
+            </div>
+
+            <div class="searchbox">
+              <div class="search-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <circle cx="11" cy="11" r="6.5" stroke-width="1.8"></circle>
+                  <path d="M16 16L20 20" stroke-width="1.8" stroke-linecap="round"></path>
+                </svg>
+              </div>
+              <input type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+            </div>
+
+            <div class="search-actions">
+              <button class="chip tab tab-active" type="button">Vsetko</button>
+              <button class="chip" type="button">Dlznici</button>
+              <button class="chip" type="button">Dodatky</button>
+              <button class="chip" type="button">Velke sumy</button>
+              <button class="action action-primary" type="button">Hladat</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="signal-strip">
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Zmluv celkom</span>
+            <strong>132 576</strong>
+            <p>Dense metrics without extra height.</p>
+          </article>
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Celkova hodnota</span>
+            <strong>10 016.9 mil. EUR</strong>
+            <p>Visible immediately after search.</p>
+          </article>
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Priemerna suma</span>
+            <strong>137 tis. EUR</strong>
+            <p>Short, calm, operational.</p>
+          </article>
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Signal queue</span>
+            <strong>3 223</strong>
+            <p>Manual review waiting.</p>
+          </article>
+        </section>
+
+        <section class="stage">
+          <section class="table-shell">
+            <div class="table-head">
+              <div>
+                <span class="stopa-eyebrow">Primary surface</span>
+                <h3>Podozrive zaznamy</h3>
+                <p>Full-width list view with the table owning the page.</p>
+              </div>
+              <div class="table-tools">
+                <button class="pill tab tab-active" type="button">Aktivne</button>
+                <button class="pill" type="button">Moje vybery</button>
+                <button class="pill" type="button">Export</button>
+              </div>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Nazov</th>
+                    <th>Rezort</th>
+                    <th>Dodavatel</th>
+                    <th>Suma</th>
+                    <th>Signal</th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td>Contract 46581</td>
+                    <td>Ministry of Interior</td>
+                    <td>Example Services a.s.</td>
+                    <td>412 000 EUR</td>
+                    <td>Dlznik + dodatok</td>
+                    <td>08:42</td>
+                  </tr>
+                  <tr>
+                    <td>IT Framework</td>
+                    <td>State enterprise</td>
+                    <td>Procure Group</td>
+                    <td>3 120 000 EUR</td>
+                    <td>High amount</td>
+                    <td>08:35</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>Transit Systems</td>
+                    <td>188 000 EUR</td>
+                    <td>Value jump</td>
+                    <td>08:11</td>
+                  </tr>
+                  <tr>
+                    <td>Security contract</td>
+                    <td>District office</td>
+                    <td>Shield SK</td>
+                    <td>96 000 EUR</td>
+                    <td>Weak description</td>
+                    <td>07:58</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

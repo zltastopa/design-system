@@ -1,0 +1,59 @@
+<div class="stopa-app" data-product="zmluvy">
+  <div class="stopa-shell">
+    <header class="stopa-topbar">
+      <div class="stopa-brand">
+        <img class="stopa-brand-logo" src="../zlta-stopa.svg" alt="Zlta Stopa" />
+        <div class="stopa-brand-copy">
+          <span class="stopa-eyebrow">Stopa OS / Search-First Shell</span>
+          <h1 class="stopa-brand-title">Zmluvy</h1>
+        </div>
+      </div>
+
+      <nav class="stopa-tabs">
+        <a class="stopa-tab stopa-tab-active" href="/">Prehlad</a>
+        <a class="stopa-tab" href="/">Zoznam</a>
+        <a class="stopa-tab" href="/">Dalsie filtre</a>
+        <a class="stopa-tab" href="/">Metodika</a>
+      </nav>
+
+      <div class="stopa-actions">
+        <a class="stopa-pill stopa-icon-pill" href="#search" aria-label="Jump to search">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" width="16" height="16">
+            <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" />
+            <path d="M16 16L20.5 20.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </a>
+        <a class="stopa-button stopa-button-primary" href="/">Dataset</a>
+      </div>
+    </header>
+
+    <section class="stopa-search-stage" id="search">
+      <p class="stopa-search-claim">Hladaj skor, nez sa to strati v sume.</p>
+      <div class="stopa-search-head">
+        <strong>Search</strong>
+        <span class="stopa-shortcut-hint">
+          <span>Press</span>
+          <span class="stopa-shortcut">/</span>
+          <span>to focus search</span>
+        </span>
+      </div>
+      <div class="stopa-searchbar">
+        <div class="stopa-search-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="6" stroke-width="2" />
+            <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <input type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+        <button class="stopa-button stopa-button-primary" type="button">Hladat</button>
+      </div>
+      <div class="stopa-filters">
+        <button class="stopa-chip stopa-chip-active" type="button">Vsetko</button>
+        <button class="stopa-chip" type="button">Dlznici</button>
+        <button class="stopa-chip" type="button">Dodatky</button>
+        <button class="stopa-chip" type="button">Velke sumy</button>
+        <button class="stopa-chip" type="button">Prilohy</button>
+      </div>
+    </section>
+  </div>
+</div>

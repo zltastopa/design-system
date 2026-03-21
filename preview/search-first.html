@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS Preview - Search First</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      :root {
+        --page-max: 92rem;
+        --chrome: rgba(255, 255, 255, 0.82);
+        --chrome-strong: rgba(255, 255, 255, 0.92);
+        --edge: rgba(19, 19, 19, 0.08);
+        --edge-strong: rgba(19, 19, 19, 0.16);
+        --radius-shell: 1.125rem;
+        --radius-card: 1rem;
+        --radius-control: 0.95rem;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.11) 1.1px, transparent 0) 0 0 / 20px 20px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.82)),
+          var(--stopa-color-bg);
+      }
+
+      .stopa-app {
+        padding: 1rem;
+      }
+
+      .search-first-shell {
+        width: min(var(--page-max), calc(100vw - 2rem));
+        margin: 0 auto;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .search-first-topbar {
+        min-height: 4.1rem;
+        padding: 0.65rem 0.9rem;
+        border: 1px solid var(--edge);
+        border-radius: 1.25rem;
+        background: var(--chrome);
+        box-shadow: 0 16px 36px rgba(17, 17, 17, 0.08), 0 2px 10px rgba(17, 17, 17, 0.04);
+        backdrop-filter: blur(14px);
+        display: grid;
+        grid-template-columns: auto minmax(18rem, 1fr) auto;
+        gap: 1rem;
+        align-items: center;
+      }
+
+      .search-first-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 0;
+      }
+
+      .search-first-mark {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 0.8rem;
+        background: var(--stopa-color-product-accent);
+        display: grid;
+        place-items: center;
+        font: 800 1rem/1 var(--stopa-font-display);
+      }
+
+      .search-first-brand-copy {
+        display: grid;
+        gap: 0.05rem;
+      }
+
+      .search-first-name {
+        margin: 0;
+        font: 800 1rem/1 var(--stopa-font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .search-first-sub {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .search-first-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .search-first-pill,
+      .search-first-tab,
+      .search-first-action {
+        border-radius: 999px;
+        border: 1px solid var(--edge);
+        background: rgba(255, 255, 255, 0.84);
+        color: var(--stopa-color-text);
+        min-height: 2.45rem;
+        padding: 0 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font: 700 0.88rem/1 var(--stopa-font-ui);
+        transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+      }
+
+      .search-first-pill:hover,
+      .search-first-tab:hover,
+      .search-first-action:hover {
+        transform: translateY(-1px);
+        border-color: var(--edge-strong);
+      }
+
+      .search-first-tab-active,
+      .search-first-action-primary {
+        background: var(--stopa-color-product-accent);
+        border-color: transparent;
+      }
+
+      .search-first-command {
+        display: grid;
+        gap: 0.7rem;
+        padding: 1.15rem 0 0.35rem;
+        justify-items: center;
+      }
+
+      .search-first-command h1 {
+        margin: 0;
+        text-align: center;
+        max-width: 18ch;
+        font: 800 clamp(2.55rem, 6vw, 5.1rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .search-first-command p {
+        margin: 0;
+        max-width: 58ch;
+        text-align: center;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-lg);
+      }
+
+      .search-first-search-wrap {
+        width: min(100%, 64rem);
+        display: grid;
+        gap: 0.7rem;
+        justify-items: center;
+      }
+
+      .search-first-search {
+        width: 100%;
+        min-height: 5.2rem;
+        padding: 0.9rem 1rem;
+        border: 1px solid var(--edge-strong);
+        border-radius: 1.4rem;
+        background: var(--chrome-strong);
+        box-shadow: 0 18px 48px rgba(17, 17, 17, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+      }
+
+      .search-first-search-icon {
+        width: 2.7rem;
+        height: 2.7rem;
+        border-radius: 999px;
+        background: rgba(255, 196, 0, 0.15);
+        color: var(--stopa-color-product-accent-strong);
+        display: grid;
+        place-items: center;
+        font: 800 1.1rem/1 var(--stopa-font-ui);
+        flex: 0 0 auto;
+      }
+
+      .search-first-search input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--stopa-color-text);
+        font: 700 clamp(1.1rem, 1.9vw, 1.45rem) / 1.2 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .search-first-search input::placeholder {
+        color: rgba(19, 19, 19, 0.42);
+      }
+
+      .search-first-hint {
+        margin: 0;
+        text-align: center;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .search-first-filters {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .search-first-filters .stopa-chip,
+      .search-first-filters .stopa-button {
+        min-height: 2.45rem;
+        padding-inline: 0.9rem;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.86);
+      }
+
+      .search-first-filters .stopa-chip-active,
+      .search-first-filters .stopa-button-primary {
+        background: var(--stopa-color-product-accent);
+      }
+
+      .search-first-stats {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+
+      .search-first-card,
+      .search-first-table,
+      .search-first-panel {
+        border: 1px solid var(--edge);
+        border-radius: var(--radius-card);
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: 0 10px 24px rgba(17, 17, 17, 0.05), 0 1px 0 rgba(255, 255, 255, 0.7) inset;
+      }
+
+      .search-first-card {
+        position: relative;
+        padding: 1.05rem 1.1rem 0.95rem 1.1rem;
+        display: grid;
+        gap: 0.45rem;
+        min-height: 8.4rem;
+      }
+
+      .search-first-card-title {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.74rem/1.1 var(--stopa-font-ui);
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+      }
+
+      .search-first-card-value {
+        margin: 0;
+        font: 800 clamp(1.9rem, 2.7vw, 3rem) / 0.95 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .search-first-card-copy {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .search-first-accent {
+        padding-left: calc(1.1rem + var(--stopa-rail-width) + 0.8rem);
+      }
+
+      .search-first-accent::before {
+        content: "";
+        position: absolute;
+        left: 1.1rem;
+        top: 1.05rem;
+        bottom: 1.05rem;
+        width: var(--stopa-rail-width);
+        border-radius: 999px;
+        background: var(--stopa-color-product-accent);
+      }
+
+      .search-first-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 0.9fr;
+        gap: 0.75rem;
+      }
+
+      .search-first-panel {
+        padding: 1rem;
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .search-first-panel-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 0.8rem;
+        align-items: center;
+      }
+
+      .search-first-panel-head h2,
+      .search-first-panel-head h3 {
+        margin: 0;
+        font: 800 1.05rem/1.1 var(--stopa-font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .search-first-panel-head span {
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-label);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .search-first-chart {
+        min-height: 13rem;
+        border-radius: 0.95rem;
+      }
+
+      .search-first-table {
+        overflow: hidden;
+        padding: 0.95rem;
+      }
+
+      .search-first-table-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.9rem;
+        margin-bottom: 0.85rem;
+      }
+
+      .search-first-table-head h3 {
+        margin: 0;
+        font: 800 1.05rem/1.1 var(--stopa-font-display);
+        letter-spacing: -0.03em;
+      }
+
+      .search-first-table-wrap {
+        overflow: auto;
+        border: 1px solid var(--edge);
+        border-radius: 0.9rem;
+        background: rgba(255, 255, 255, 0.92);
+      }
+
+      .search-first-table table {
+        width: 100%;
+        min-width: 54rem;
+        border-collapse: collapse;
+      }
+
+      .search-first-table th,
+      .search-first-table td {
+        padding: 0.82rem 0.95rem;
+        border-bottom: 1px solid rgba(19, 19, 19, 0.08);
+        text-align: left;
+      }
+
+      .search-first-table th {
+        position: sticky;
+        top: 0;
+        background: rgba(248, 246, 241, 0.98);
+        color: var(--stopa-color-text-soft);
+        font: 800 0.72rem/1.1 var(--stopa-font-ui);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .search-first-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.8);
+      }
+
+      .search-first-table tbody tr.is-selected {
+        background: var(--stopa-color-product-accent-soft);
+        box-shadow: inset 4px 0 0 var(--stopa-color-product-accent);
+      }
+
+      .search-first-small {
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      @media (max-width: 1080px) {
+        .search-first-topbar {
+          grid-template-columns: 1fr;
+          justify-items: stretch;
+        }
+
+        .search-first-nav {
+          justify-content: flex-start;
+        }
+
+        .search-first-stats {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .search-first-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .stopa-app {
+          padding: 0.75rem;
+        }
+
+        .search-first-shell {
+          width: min(var(--page-max), calc(100vw - 1.5rem));
+        }
+
+        .search-first-command h1 {
+          max-width: 11ch;
+        }
+
+        .search-first-stats {
+          grid-template-columns: 1fr;
+        }
+
+        .search-first-search {
+          min-height: 4.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app" data-product="zmluvy">
+      <div class="search-first-shell">
+        <header class="search-first-topbar">
+          <div class="search-first-brand">
+            <div class="search-first-mark">Z</div>
+            <div class="search-first-brand-copy">
+              <p class="search-first-name">Stopa OS</p>
+              <p class="search-first-sub">Search first variant</p>
+            </div>
+          </div>
+
+          <nav class="search-first-nav" aria-label="Primary">
+            <a class="search-first-tab search-first-tab-active" href="/">Prehlad</a>
+            <a class="search-first-tab" href="/">Zoznam</a>
+            <a class="search-first-tab" href="/">Metodika</a>
+            <a class="search-first-tab" href="/">Datasety</a>
+          </nav>
+
+          <div class="search-first-nav" aria-label="Actions">
+            <a class="search-first-pill" href="/">GitHub</a>
+            <a class="search-first-action search-first-action-primary" href="/">Nahlasit signal</a>
+          </div>
+        </header>
+
+        <section class="search-first-command">
+          <h1>Hladaj cez cely CRZ.</h1>
+          <div class="search-first-search-wrap">
+            <label class="search-first-search" for="search-first-query">
+              <span class="search-first-search-icon">⌕</span>
+              <input id="search-first-query" type="search" placeholder="Skus: ICO, ministerstvo, dodatok, poznamka, prilohy" />
+            </label>
+            <p class="search-first-hint">Rychly vstup do CRZ bez balastu. Zmluvy, dodatky, firmy, subjekty, poznámky a podozrive vzory.</p>
+            <div class="search-first-filters" aria-label="Quick filters">
+              <button class="stopa-chip stopa-chip-active" type="button">Vsetko</button>
+              <button class="stopa-chip" type="button">Dodatky</button>
+              <button class="stopa-chip" type="button">Dlznici</button>
+              <button class="stopa-chip" type="button">Velke sumy</button>
+              <button class="stopa-button stopa-button-primary" type="button">Hladat</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="search-first-stats">
+          <article class="search-first-card">
+            <span class="search-first-card-title">Zmluv celkom</span>
+            <p class="search-first-card-value">132 576</p>
+            <p class="search-first-card-copy">Najskor citatelny, potom husty.</p>
+          </article>
+
+          <article class="search-first-card">
+            <span class="search-first-card-title">Celkova hodnota</span>
+            <p class="search-first-card-value">10 016.9 mil. EUR</p>
+            <p class="search-first-card-copy">Top number presentation stays strong.</p>
+          </article>
+
+          <article class="search-first-card">
+            <span class="search-first-card-title">Priemerna suma</span>
+            <p class="search-first-card-value">137 tis. EUR</p>
+            <p class="search-first-card-copy">Compact control-room metric density.</p>
+          </article>
+
+          <article class="search-first-card search-first-accent">
+            <span class="search-first-card-title">Signal</span>
+            <p class="search-first-card-value">3 223</p>
+            <p class="search-first-card-copy">Debtors, amendments, and outliers.</p>
+          </article>
+        </section>
+
+        <section class="search-first-grid">
+          <article class="search-first-panel">
+            <div class="search-first-panel-head">
+              <div>
+                <span>Chart shell</span>
+                <h2>Monthly contracts</h2>
+              </div>
+              <span class="search-first-small">Compact overview</span>
+            </div>
+            <div class="stopa-chart-placeholder search-first-chart" aria-hidden="true"></div>
+          </article>
+
+          <aside class="search-first-panel">
+            <div class="search-first-panel-head">
+              <div>
+                <span>Detail shell</span>
+                <h3>Selected record</h3>
+              </div>
+              <span class="search-first-small">Focused state</span>
+            </div>
+            <div class="search-first-filters" aria-label="Detail tags">
+              <span class="stopa-chip stopa-chip-active">Dlznik</span>
+              <span class="stopa-chip">Dodatok</span>
+              <span class="stopa-chip">High risk</span>
+            </div>
+            <p class="search-first-small">Vendor: Example Services a.s.</p>
+            <p class="search-first-small">Amount: 412 000 EUR</p>
+            <p class="search-first-small">Ministry: Interior</p>
+          </aside>
+        </section>
+
+        <section class="search-first-table">
+          <div class="search-first-table-head">
+            <div>
+              <span class="search-first-small" style="display:block; margin-bottom: 0.2rem;">Table shell</span>
+              <h3>Suspicious records</h3>
+            </div>
+            <div class="search-first-filters">
+              <button class="stopa-chip stopa-chip-active" type="button">Aktivne</button>
+              <button class="stopa-chip" type="button">Export</button>
+            </div>
+          </div>
+
+          <div class="search-first-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Institution</th>
+                  <th>Amount</th>
+                  <th>Signal</th>
+                  <th>Owner</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="is-selected">
+                  <td>Contract 46581</td>
+                  <td>Ministry of Interior</td>
+                  <td>412 000 EUR</td>
+                  <td>Debtor + amendment</td>
+                  <td>Team A</td>
+                </tr>
+                <tr>
+                  <td>IT Framework</td>
+                  <td>State enterprise</td>
+                  <td>3 120 000 EUR</td>
+                  <td>High amount</td>
+                  <td>Team B</td>
+                </tr>
+                <tr>
+                  <td>Amendment 12</td>
+                  <td>Transport office</td>
+                  <td>188 000 EUR</td>
+                  <td>Value jump</td>
+                  <td>Team C</td>
+                </tr>
+                <tr>
+                  <td>Facility support</td>
+                  <td>Regional office</td>
+                  <td>76 000 EUR</td>
+                  <td>Missing context</td>
+                  <td>Team D</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

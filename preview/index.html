@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS Preview Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      .review-app {
+        --stopa-layout-max: 92rem;
+      }
+
+      .review-app .stopa-shell {
+        gap: 1.1rem;
+      }
+
+      .review-hero {
+        display: grid;
+        gap: 0.8rem;
+        padding: 1.35rem 1.5rem;
+        border: 1px solid rgba(19, 19, 19, 0.1);
+        border-radius: 1.55rem;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: var(--stopa-shadow-card);
+      }
+
+      .review-hero h2,
+      .variant-card h3,
+      .variant-card p {
+        margin: 0;
+      }
+
+      .review-hero h2 {
+        font: 800 clamp(1.9rem, 3.2vw, 3.2rem) / 0.95 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .review-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 1rem;
+      }
+
+      .variant-card {
+        display: grid;
+        gap: 0.85rem;
+        padding: 1rem;
+        border: 1px solid rgba(19, 19, 19, 0.1);
+        border-radius: 1.35rem;
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: var(--stopa-shadow-card);
+      }
+
+      .variant-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        gap: 1rem;
+      }
+
+      .variant-head a {
+        white-space: nowrap;
+      }
+
+      .variant-frame {
+        height: 22rem;
+        overflow: hidden;
+        border: 1px solid rgba(19, 19, 19, 0.08);
+        border-radius: 1.05rem;
+        background: #fff;
+      }
+
+      .variant-frame iframe {
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      @media (max-width: 920px) {
+        .review-grid {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app review-app" data-product="zmluvy">
+      <div class="stopa-shell">
+        <section class="review-hero">
+          <span class="stopa-eyebrow">Stopa OS / Zmluvy / Preview Hub</span>
+          <h2>Chosen direction: airy, search-first, flat, and calmly dense.</h2>
+          <p class="stopa-lead">
+            `search-study-airy.html` is the current reference. The earlier pages stay here as process snapshots so the
+            final shell has visible context instead of appearing from nowhere.
+          </p>
+        </section>
+
+        <section class="review-grid">
+          <article class="variant-card">
+            <div class="variant-head">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Current Reference</span>
+                <h3>Airy Centered</h3>
+                <p class="stopa-card-copy">The selected search-first shell for `zmluvy` and the base for Stopa OS.</p>
+              </div>
+              <a class="stopa-button" href="./search-study-airy.html">Open</a>
+            </div>
+            <div class="variant-frame">
+              <iframe src="./search-study-airy.html" title="Airy Centered reference"></iframe>
+            </div>
+          </article>
+
+          <article class="variant-card">
+            <div class="variant-head">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Earlier Direction</span>
+                <h3>Search Monument</h3>
+                <p class="stopa-card-copy">The step that clarified the search-first structure before the search itself was fixed.</p>
+              </div>
+              <a class="stopa-button" href="./search-monument.html">Open</a>
+            </div>
+            <div class="variant-frame">
+              <iframe src="./search-monument.html" title="Search Monument reference"></iframe>
+            </div>
+          </article>
+
+          <article class="variant-card">
+            <div class="variant-head">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Variant B</span>
+                <h3>Minimal Linear</h3>
+                <p class="stopa-card-copy">Thinner, tighter, more restrained, with less visual weight around the input.</p>
+              </div>
+              <a class="stopa-button" href="./search-study-minimal.html">Open</a>
+            </div>
+            <div class="variant-frame">
+              <iframe src="./search-study-minimal.html" title="Minimal Linear search study"></iframe>
+            </div>
+          </article>
+
+          <article class="variant-card">
+            <div class="variant-head">
+              <div class="stopa-stack">
+                <span class="stopa-eyebrow">Variant C</span>
+                <h3>Search + Quick Filters</h3>
+                <p class="stopa-card-copy">Most tool-like: compact search, immediate filters, and fast entry into the list.</p>
+              </div>
+              <a class="stopa-button" href="./search-study-filters.html">Open</a>
+            </div>
+            <div class="variant-frame">
+              <iframe src="./search-study-filters.html" title="Search with quick filters study"></iframe>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

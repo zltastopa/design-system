@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS Preview - Search Monument</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      :root {
+        --page-max: 94rem;
+        --shell-edge: rgba(19, 19, 19, 0.1);
+        --shell-edge-strong: rgba(19, 19, 19, 0.18);
+        --shell-shadow: 0 18px 44px rgba(17, 17, 17, 0.08), 0 4px 14px rgba(17, 17, 17, 0.05);
+        --shell-shadow-strong: 0 22px 60px rgba(17, 17, 17, 0.12), 0 6px 18px rgba(17, 17, 17, 0.06);
+        --shell-radius: 1.1rem;
+        --shell-radius-lg: 1.35rem;
+        --shell-radius-xl: 1.6rem;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.1) 1.05px, transparent 0) 0 0 / 22px 22px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.9)),
+          #f3f0e5;
+      }
+
+      .stopa-app {
+        padding: 0.9rem;
+      }
+
+      .monument-shell {
+        width: min(var(--page-max), calc(100vw - 1.8rem));
+        margin: 0 auto;
+        display: grid;
+        gap: 0.9rem;
+      }
+
+      .monument-topbar {
+        position: sticky;
+        top: 0.75rem;
+        z-index: 20;
+        min-height: 4.15rem;
+        padding: 0.62rem 0.8rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.35rem;
+        background: rgba(255, 255, 255, 0.92);
+        box-shadow: var(--shell-shadow-strong);
+        backdrop-filter: blur(18px);
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 0.95rem;
+      }
+
+      .monument-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.7rem;
+        min-width: 0;
+      }
+
+      .monument-mark {
+        width: 2.45rem;
+        height: 2.45rem;
+        border-radius: 0.85rem;
+        background: var(--stopa-color-product-accent);
+        color: var(--stopa-color-text);
+        display: grid;
+        place-items: center;
+        font: 800 0.95rem/1 var(--stopa-font-display);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+      }
+
+      .monument-brand-copy {
+        display: grid;
+        gap: 0.08rem;
+      }
+
+      .monument-title {
+        margin: 0;
+        font: 800 0.98rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .monument-sub {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .monument-nav {
+        display: flex;
+        justify-content: center;
+        gap: 0.45rem;
+        flex-wrap: wrap;
+      }
+
+      .monument-pill,
+      .monument-tab,
+      .monument-action {
+        border-radius: 999px;
+        border: 1px solid var(--shell-edge);
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--stopa-color-text);
+        min-height: 2.32rem;
+        padding: 0 0.86rem;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.42rem;
+        text-decoration: none;
+        font: 700 0.86rem/1 var(--stopa-font-ui);
+        transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease;
+      }
+
+      .monument-pill:hover,
+      .monument-tab:hover,
+      .monument-action:hover {
+        transform: translateY(-1px);
+        border-color: var(--shell-edge-strong);
+      }
+
+      .monument-tab-active,
+      .monument-action-primary {
+        background: var(--stopa-color-product-accent);
+        border-color: transparent;
+      }
+
+      .monument-cta {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+      }
+
+      .monument-search-jump {
+        min-width: 2.4rem;
+        padding-inline: 0.75rem;
+      }
+
+      .monument-search-jump strong {
+        font: 900 1rem/1 var(--stopa-font-ui);
+      }
+
+      .monument-hero {
+        position: relative;
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.8fr);
+        gap: 0.85rem;
+        padding: 1rem;
+        border: 1px solid var(--shell-edge);
+        border-radius: 1.55rem;
+        background:
+          radial-gradient(circle at top right, rgba(255, 196, 0, 0.17), transparent 34%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(251, 248, 239, 0.94));
+        box-shadow: var(--shell-shadow);
+      }
+
+      .monument-hero::before {
+        content: "";
+        position: absolute;
+        inset: auto -5rem -7rem auto;
+        width: 18rem;
+        height: 18rem;
+        border-radius: 50%;
+        background: rgba(255, 196, 0, 0.06);
+        pointer-events: none;
+      }
+
+      .monument-command {
+        display: grid;
+        gap: 0.72rem;
+        align-content: start;
+        padding: 0.1rem 0 0.2rem;
+      }
+
+      .monument-command h1 {
+        margin: 0;
+        max-width: 14ch;
+        font: 800 clamp(2.5rem, 5.2vw, 5rem) / 0.9 var(--stopa-font-display);
+        letter-spacing: -0.055em;
+      }
+
+      .monument-command p {
+        margin: 0;
+        max-width: 44ch;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-lg);
+      }
+
+      .monument-search-card {
+        display: grid;
+        gap: 0.75rem;
+        align-content: center;
+        padding: 1rem;
+        border-radius: 1.35rem;
+        border: 1px solid var(--shell-edge);
+        background: rgba(255, 255, 255, 0.88);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.78);
+      }
+
+      .monument-search-shell {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .monument-search-label {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 0.75rem;
+      }
+
+      .monument-search-label strong {
+        font: 800 0.74rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .monument-search-label span {
+        color: var(--stopa-color-text-faint);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .monument-search {
+        min-height: 6rem;
+        padding: 0.85rem 0.95rem 0.85rem 1rem;
+        border: 1px solid var(--shell-edge-strong);
+        border-radius: 1.25rem;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(251, 247, 233, 0.96));
+        box-shadow: 0 16px 34px rgba(17, 17, 17, 0.08);
+        display: flex;
+        align-items: center;
+        gap: 0.85rem;
+      }
+
+      .monument-search-icon {
+        width: 2.75rem;
+        height: 2.75rem;
+        border-radius: 999px;
+        background: rgba(255, 196, 0, 0.16);
+        color: var(--stopa-color-product-accent-strong);
+        display: grid;
+        place-items: center;
+        font: 900 1.1rem/1 var(--stopa-font-ui);
+        flex: 0 0 auto;
+      }
+
+      .monument-search input {
+        width: 100%;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: var(--stopa-color-text);
+        font: 700 clamp(1.12rem, 1.8vw, 1.52rem) / 1.15 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .monument-search input::placeholder {
+        color: rgba(19, 19, 19, 0.38);
+      }
+
+      .monument-shortcut {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .monument-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem;
+      }
+
+      .monument-chips .stopa-chip,
+      .monument-chips .stopa-button {
+        min-height: 2.32rem;
+        padding-inline: 0.82rem;
+        border-radius: 999px;
+      }
+
+      .monument-chips .stopa-chip-active,
+      .monument-chips .stopa-button-primary {
+        background: var(--stopa-color-product-accent);
+      }
+
+      .monument-kpis {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.68rem;
+      }
+
+      .monument-kpi,
+      .monument-panel,
+      .monument-table {
+        border: 1px solid var(--shell-edge);
+        border-radius: var(--shell-radius);
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: var(--shell-shadow);
+      }
+
+      .monument-kpi {
+        position: relative;
+        min-height: 7.75rem;
+        padding: 0.95rem 1rem 0.92rem;
+        display: grid;
+        gap: 0.38rem;
+      }
+
+      .monument-kpi::before {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 0.34rem;
+        border-radius: 999px;
+        background: transparent;
+      }
+
+      .monument-kpi-accent::before {
+        background: var(--stopa-color-product-accent);
+      }
+
+      .monument-kpi-title {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.72rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .monument-kpi-value {
+        margin: 0;
+        font: 800 clamp(1.7rem, 2.5vw, 2.8rem) / 0.95 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .monument-kpi-copy {
+        margin: 0;
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .monument-body {
+        display: grid;
+        gap: 0.8rem;
+      }
+
+      .monument-table {
+        overflow: hidden;
+      }
+
+      .monument-table-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        padding: 1rem 1rem 0.8rem;
+      }
+
+      .monument-table-head h2,
+      .monument-table-head p {
+        margin: 0;
+      }
+
+      .monument-table-head h2 {
+        font: 800 1.2rem/1.05 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .monument-table-head p {
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .monument-table-wrap {
+        overflow: auto;
+        border-top: 1px solid var(--shell-edge);
+      }
+
+      .monument-data {
+        width: 100%;
+        min-width: 52rem;
+        border-collapse: collapse;
+      }
+
+      .monument-data th,
+      .monument-data td {
+        padding: 0.92rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--shell-edge);
+      }
+
+      .monument-data th {
+        position: sticky;
+        top: 0;
+        background: rgba(252, 249, 241, 0.98);
+        color: var(--stopa-color-text-soft);
+        font: 800 0.72rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .monument-data tbody tr:hover {
+        background: rgba(255, 255, 255, 0.68);
+      }
+
+      .monument-data tbody tr.is-selected {
+        background: var(--stopa-color-product-accent-soft);
+        box-shadow: inset 4px 0 0 var(--stopa-color-product-accent);
+      }
+
+      .monument-footer {
+        display: grid;
+        grid-template-columns: minmax(0, 1.4fr) minmax(18rem, 0.7fr);
+        gap: 0.8rem;
+      }
+
+      .monument-panel {
+        padding: 1rem;
+        display: grid;
+        gap: 0.72rem;
+      }
+
+      .monument-panel-title {
+        margin: 0;
+        font: 800 1rem/1.05 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .monument-detail {
+        display: grid;
+        gap: 0.58rem;
+      }
+
+      .monument-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 0.58rem;
+        border-bottom: 1px solid var(--shell-edge);
+      }
+
+      .monument-row:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      .monument-row span:last-child {
+        color: var(--stopa-color-text-soft);
+      }
+
+      @media (max-width: 1080px) {
+        .monument-hero,
+        .monument-footer {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .monument-kpis {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (max-width: 720px) {
+        .stopa-app {
+          padding: 0.7rem;
+        }
+
+        .monument-shell {
+          width: min(var(--page-max), calc(100vw - 1.4rem));
+        }
+
+        .monument-topbar {
+          grid-template-columns: minmax(0, 1fr);
+          align-items: start;
+        }
+
+        .monument-nav {
+          justify-content: start;
+        }
+
+        .monument-kpis {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .monument-table-head {
+          flex-direction: column;
+          align-items: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app" data-product="zmluvy">
+      <div class="monument-shell">
+        <header class="monument-topbar">
+          <div class="monument-brand">
+            <div class="monument-mark">Z</div>
+            <div class="monument-brand-copy">
+              <span class="stopa-eyebrow">Stopa OS / Search Monument</span>
+              <p class="monument-title">Zmluvy</p>
+            </div>
+          </div>
+
+          <nav class="monument-nav">
+            <a class="monument-tab monument-tab-active" href="#search">Prehlad</a>
+            <a class="monument-tab" href="#table">Zoznam</a>
+            <a class="monument-tab" href="#table">Dalsie filtre</a>
+            <a class="monument-tab" href="#table">Metodika</a>
+          </nav>
+
+          <div class="monument-cta">
+            <a class="monument-action monument-search-jump" href="#search" id="search-jump" aria-label="Jump to search">
+              <strong>⌕</strong>
+            </a>
+            <a class="monument-action monument-action-primary" href="#table">Dataset</a>
+          </div>
+        </header>
+
+        <section class="monument-hero">
+          <div class="monument-command">
+            <span class="stopa-eyebrow">Search first, the rest follows</span>
+            <h1>Hladanie je hlavny pohyb v tomto produkte.</h1>
+            <p>
+              Hladaj napriec celym CRZ bez balastu. Zmluvy, dodatky, firmy, ICO, poznamky a podozrive vzory
+              zostavaju za jednou vstupnou bránou.
+            </p>
+          </div>
+
+          <div class="monument-search-card" id="search">
+            <div class="monument-search-shell">
+              <div class="monument-search-label">
+                <strong>Search</strong>
+                <span>Enter to run query</span>
+              </div>
+              <label class="monument-search" for="query">
+                <span class="monument-search-icon">⌕</span>
+                <input id="query" type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+              </label>
+            </div>
+            <p class="monument-shortcut">Quick jump. Use `/` or the search icon in the header.</p>
+            <div class="monument-chips">
+              <button class="stopa-chip stopa-chip-active">Vsetko</button>
+              <button class="stopa-chip">Dlznici</button>
+              <button class="stopa-chip">Dodatky</button>
+              <button class="stopa-chip">Velke sumy</button>
+              <button class="stopa-button stopa-button-primary">Hladat</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="monument-kpis">
+          <article class="monument-kpi">
+            <span class="monument-kpi-title">Zmluv celkom</span>
+            <p class="monument-kpi-value">132 576</p>
+            <p class="monument-kpi-copy">Dense metrics, no wasted height.</p>
+          </article>
+
+          <article class="monument-kpi">
+            <span class="monument-kpi-title">Celkova hodnota</span>
+            <p class="monument-kpi-value">10 016.9 mil. EUR</p>
+            <p class="monument-kpi-copy">Immediate read without a chart tax.</p>
+          </article>
+
+          <article class="monument-kpi">
+            <span class="monument-kpi-title">Priemerna suma</span>
+            <p class="monument-kpi-value">137 tis. EUR</p>
+            <p class="monument-kpi-copy">Sharp numerals, calm treatment.</p>
+          </article>
+
+          <article class="monument-kpi monument-kpi-accent">
+            <span class="monument-kpi-title">Signal queue</span>
+            <p class="monument-kpi-value">3 223</p>
+            <p class="monument-kpi-copy">Cases waiting for manual verification.</p>
+          </article>
+        </section>
+
+        <section class="monument-body" id="table">
+          <article class="monument-table">
+            <div class="monument-table-head">
+              <div>
+                <span class="stopa-eyebrow">Primary surface</span>
+                <h2>Suspicious records</h2>
+              </div>
+              <p>Full-width list view for the things that need room.</p>
+            </div>
+
+            <div class="monument-table-wrap">
+              <table class="monument-data">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Institution</th>
+                    <th>Amount</th>
+                    <th>Signal</th>
+                    <th>Updated</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td>Contract 46581</td>
+                    <td>Ministry of Interior</td>
+                    <td>412 000 EUR</td>
+                    <td>Debtor + amendment</td>
+                    <td>08:42</td>
+                  </tr>
+                  <tr>
+                    <td>IT Framework</td>
+                    <td>State enterprise</td>
+                    <td>3 120 000 EUR</td>
+                    <td>High amount</td>
+                    <td>08:31</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>188 000 EUR</td>
+                    <td>Value jump</td>
+                    <td>07:59</td>
+                  </tr>
+                  <tr>
+                    <td>Facility support</td>
+                    <td>Regional office</td>
+                    <td>76 000 EUR</td>
+                    <td>Missing context</td>
+                    <td>07:22</td>
+                  </tr>
+                  <tr>
+                    <td>Security contract</td>
+                    <td>District office</td>
+                    <td>96 000 EUR</td>
+                    <td>Weak description</td>
+                    <td>06:55</td>
+                  </tr>
+                  <tr>
+                    <td>Registry sync</td>
+                    <td>Public service</td>
+                    <td>48 000 EUR</td>
+                    <td>Low confidence</td>
+                    <td>06:10</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <div class="monument-footer">
+            <aside class="monument-panel">
+              <span class="stopa-eyebrow">Short note</span>
+              <p class="monument-panel-title">This layout gives search the first move and keeps the list wide.</p>
+              <p class="stopa-card-copy">
+                It is meant to feel operational, not decorative: search on top, metrics next, table full width,
+                and only one secondary side surface.
+              </p>
+            </aside>
+
+            <aside class="monument-panel">
+              <span class="stopa-eyebrow">Selected record</span>
+              <div class="monument-detail">
+                <div class="monument-row"><span>Vendor</span><span>Example Services a.s.</span></div>
+                <div class="monument-row"><span>Amount</span><span>412 000 EUR</span></div>
+                <div class="monument-row"><span>Institution</span><span>Ministry of Interior</span></div>
+                <div class="monument-row"><span>Updated</span><span>2026-03-21 08:42</span></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </div>
+
+      <script>
+        const input = document.getElementById('query')
+        const jump = document.getElementById('search-jump')
+
+        function focusSearch(event) {
+          if (event) event.preventDefault()
+          input.focus()
+          input.select()
+        }
+
+        jump.addEventListener('click', focusSearch)
+        window.addEventListener('keydown', (event) => {
+          if (event.key === '/' && document.activeElement !== input) {
+            focusSearch(event)
+          }
+        })
+      </script>
+    </main>
+  </body>
+</html>

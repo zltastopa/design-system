@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stopa OS - List First Explorer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../patterns/patterns.css" />
+    <style>
+      :root {
+        --stopa-layout-max: 92rem;
+        --stopa-layout-gutter: 1rem;
+        --stopa-topbar-height: 4.05rem;
+        --stopa-radius-md: 0.95rem;
+        --stopa-radius-lg: 1.15rem;
+        --stopa-radius-xl: 1.45rem;
+        --stopa-space-4: 0.85rem;
+        --stopa-space-5: 1rem;
+        --stopa-space-6: 1.2rem;
+        --stopa-shadow-card: 0 12px 24px rgba(17, 17, 17, 0.055), 0 2px 8px rgba(17, 17, 17, 0.04);
+        --stopa-shadow-overlay: 0 24px 54px rgba(17, 17, 17, 0.13), 0 4px 16px rgba(17, 17, 17, 0.06);
+      }
+
+      body {
+        background:
+          radial-gradient(circle at 1px 1px, rgba(19, 19, 19, 0.15) 1.05px, transparent 0) 0 0 / 22px 22px,
+          linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.64)),
+          #efede7;
+      }
+
+      .variant-list-first .stopa-app,
+      .variant-list-first.stopa-app {
+        padding: 1rem;
+      }
+
+      .variant-list-first .stopa-shell {
+        gap: 0.85rem;
+      }
+
+      .variant-list-first .stopa-topbar {
+        position: sticky;
+        top: 0.8rem;
+        z-index: 10;
+        min-height: auto;
+        padding: 0.55rem 0.7rem;
+        border: 1px solid rgba(19, 19, 19, 0.14);
+        border-radius: 1.35rem;
+        background: rgba(255, 255, 255, 0.93);
+        box-shadow: var(--stopa-shadow-overlay);
+        backdrop-filter: blur(12px);
+      }
+
+      .variant-list-first .stopa-brand-mark {
+        width: 2.25rem;
+        height: 2.25rem;
+        border-radius: 0.72rem;
+      }
+
+      .variant-list-first .stopa-tab,
+      .variant-list-first .stopa-pill,
+      .variant-list-first .stopa-button,
+      .variant-list-first .stopa-chip {
+        min-height: 2.2rem;
+        padding-inline: 0.8rem;
+      }
+
+      .heading-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 0.8rem;
+        align-items: end;
+        padding: 0.2rem 0.1rem 0;
+      }
+
+      .heading-row h2,
+      .search-deck h3,
+      .signal-ribbon strong,
+      .signal-ribbon span,
+      .mini-note h3,
+      .mini-note p,
+      .table-title h3,
+      .table-title p {
+        margin: 0;
+      }
+
+      .heading-row h2 {
+        font: 800 clamp(2.1rem, 3.8vw, 4rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.055em;
+      }
+
+      .heading-row p {
+        margin: 0.25rem 0 0;
+        max-width: 60ch;
+        color: var(--stopa-color-text-soft);
+      }
+
+      .status-group {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      .search-deck {
+        display: grid;
+        gap: 0.65rem;
+        padding: 0.9rem;
+        border: 1px solid rgba(19, 19, 19, 0.12);
+        border-radius: 1.2rem;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 248, 224, 0.88));
+        box-shadow: var(--stopa-shadow-card);
+      }
+
+      .search-topline {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        align-items: baseline;
+      }
+
+      .search-topline h3 {
+        font: 800 1.15rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .search-topline p {
+        color: var(--stopa-color-text-soft);
+        font: var(--stopa-text-body-sm);
+      }
+
+      .search-input-row {
+        display: flex;
+        gap: 0.7rem;
+        align-items: center;
+        padding: 0.75rem 0.8rem 0.75rem 0.95rem;
+        border: 1px solid rgba(19, 19, 19, 0.11);
+        border-radius: 1rem;
+        background: rgba(255, 255, 255, 0.94);
+      }
+
+      .search-icon {
+        width: 2.3rem;
+        height: 2.3rem;
+        border-radius: 999px;
+        display: grid;
+        place-items: center;
+        background: rgba(255, 196, 0, 0.18);
+        color: var(--stopa-color-product-accent-strong);
+        flex: 0 0 auto;
+      }
+
+      .search-input-row input {
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        font: 700 clamp(1.02rem, 1.7vw, 1.28rem) / 1.2 var(--stopa-font-ui);
+        letter-spacing: -0.03em;
+      }
+
+      .search-actions {
+        display: flex;
+        gap: 0.55rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+
+      .signal-ribbon {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.7rem;
+      }
+
+      .signal-ribbon .stopa-card {
+        min-height: 6.7rem;
+        padding: 0.85rem 0.95rem;
+      }
+
+      .signal-ribbon strong {
+        display: block;
+        font: 800 clamp(1.5rem, 2.1vw, 2.3rem) / 0.92 var(--stopa-font-display);
+        letter-spacing: -0.05em;
+      }
+
+      .signal-ribbon span {
+        display: block;
+        margin-top: 0.35rem;
+        color: var(--stopa-color-text-soft);
+        font-size: 0.84rem;
+      }
+
+      .main-surface {
+        display: grid;
+        gap: 0.85rem;
+      }
+
+      .table-stage {
+        padding: 0.9rem;
+      }
+
+      .table-head-extended {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 1rem;
+        align-items: start;
+        margin-bottom: 0.8rem;
+      }
+
+      .table-title {
+        display: grid;
+        gap: 0.3rem;
+      }
+
+      .table-title h3 {
+        font: 800 1.25rem/1 var(--stopa-font-display);
+        letter-spacing: -0.04em;
+      }
+
+      .table-title p {
+        color: var(--stopa-color-text-soft);
+      }
+
+      .toolbar-row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: end;
+      }
+
+      .variant-list-first .stopa-table-wrap {
+        border-radius: 1rem;
+      }
+
+      .variant-list-first .stopa-table th,
+      .variant-list-first .stopa-table td {
+        padding: 0.82rem 0.92rem;
+      }
+
+      .secondary-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.85rem;
+      }
+
+      .mini-note {
+        display: grid;
+        gap: 0.4rem;
+      }
+
+      .mini-note h3 {
+        font: 800 1.05rem/1 var(--stopa-font-display);
+        letter-spacing: -0.035em;
+      }
+
+      .mini-note p {
+        color: var(--stopa-color-text-soft);
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .mini-note .stopa-chart-placeholder {
+        min-height: 10rem;
+      }
+
+      @media (max-width: 980px) {
+        .signal-ribbon,
+        .secondary-row,
+        .table-head-extended,
+        .heading-row {
+          grid-template-columns: minmax(0, 1fr);
+        }
+
+        .search-topline {
+          flex-direction: column;
+          align-items: start;
+        }
+
+        .search-input-row {
+          flex-wrap: wrap;
+        }
+
+        .toolbar-row {
+          justify-content: start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="stopa-app variant-list-first" data-product="zmluvy">
+      <div class="stopa-shell">
+        <header class="stopa-topbar">
+          <div class="stopa-brand">
+            <div class="stopa-brand-mark">Z</div>
+            <div class="stopa-brand-copy">
+              <span class="stopa-eyebrow">Stopa OS / Variant C</span>
+              <h1 class="stopa-brand-title">List-First Explorer</h1>
+            </div>
+          </div>
+
+          <nav class="stopa-tabs">
+            <a class="stopa-tab stopa-tab-active" href="/">Zoznam</a>
+            <a class="stopa-tab" href="/">Prehlad</a>
+            <a class="stopa-tab" href="/">Signaly</a>
+            <a class="stopa-tab" href="/">Metodika</a>
+          </nav>
+
+          <div class="stopa-actions">
+            <a class="stopa-pill" href="/">API</a>
+            <a class="stopa-button stopa-button-primary" href="/">Nahlasit signal</a>
+          </div>
+        </header>
+
+        <section class="heading-row">
+          <div class="stopa-stack">
+            <span class="stopa-eyebrow">Operational list view</span>
+            <h2>When the list is the product, let it own the width.</h2>
+            <p>Less dashboard slicing. More horizontal room for search, filters, sticky columns, and record density.</p>
+          </div>
+          <div class="status-group">
+            <span class="stopa-chip stopa-chip-active">3 223 signalov</span>
+            <span class="stopa-chip">14 priorita</span>
+            <span class="stopa-chip">Live sync</span>
+          </div>
+        </section>
+
+        <section class="search-deck">
+          <div class="search-topline">
+            <h3>Rychly vstup do CRZ bez balastu</h3>
+            <p>Zmluvy, dodatky, firmy, ICO, prilohy, poznamky, skorovanie signalov.</p>
+          </div>
+
+          <div class="search-input-row">
+            <div class="search-icon">⌕</div>
+            <input type="search" placeholder="Skus: dodatok 12, Robert Fico, ICO, ministerstvo vnutra" />
+            <div class="search-actions">
+              <button class="stopa-chip stopa-chip-active">Vsetko</button>
+              <button class="stopa-chip">Dlznici</button>
+              <button class="stopa-chip">Dodatky</button>
+              <button class="stopa-chip">Prilohy</button>
+              <button class="stopa-button stopa-button-primary">Hladat</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="signal-ribbon">
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Zmluv celkom</span>
+            <strong>132 576</strong>
+            <span>Compact top ribbon instead of tall metric tiles</span>
+          </article>
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Celkova hodnota</span>
+            <strong>10 016.9 mil. EUR</strong>
+            <span>Horizontal rhythm works better before a full-width table</span>
+          </article>
+          <article class="stopa-card stopa-accent-card">
+            <span class="stopa-eyebrow">Signal</span>
+            <strong>3 223</strong>
+            <span>Inset rail still works, just quieter and denser</span>
+          </article>
+          <article class="stopa-card">
+            <span class="stopa-eyebrow">Bez uvedenej sumy</span>
+            <strong>59 723</strong>
+            <span>Summary stays visible without stealing the stage</span>
+          </article>
+        </section>
+
+        <section class="main-surface">
+          <section class="stopa-table-shell table-stage">
+            <div class="table-head-extended">
+              <div class="table-title">
+                <span class="stopa-eyebrow">Primary surface</span>
+                <h3>Podozrive zaznamy</h3>
+                <p>The list dominates the page and secondary content moves below it, not beside it.</p>
+              </div>
+
+              <div class="toolbar-row">
+                <button class="stopa-chip stopa-chip-active">Aktivne</button>
+                <button class="stopa-chip">Moje vybery</button>
+                <button class="stopa-chip">Export</button>
+                <button class="stopa-pill">Stlpce</button>
+              </div>
+            </div>
+
+            <div class="stopa-table-wrap">
+              <table class="stopa-table">
+                <thead>
+                  <tr>
+                    <th>Nazov</th>
+                    <th>Rezort</th>
+                    <th>Dodavatel</th>
+                    <th>Suma</th>
+                    <th>Signal</th>
+                    <th>Posledna zmena</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td>Contract 46581</td>
+                    <td>Ministry of Interior</td>
+                    <td>Example Services a.s.</td>
+                    <td>412 000 EUR</td>
+                    <td>Dlznik + dodatok</td>
+                    <td>2026-03-21</td>
+                  </tr>
+                  <tr>
+                    <td>IT Framework</td>
+                    <td>State enterprise</td>
+                    <td>Procure Group</td>
+                    <td>3 120 000 EUR</td>
+                    <td>High amount</td>
+                    <td>2026-03-20</td>
+                  </tr>
+                  <tr>
+                    <td>Amendment 12</td>
+                    <td>Transport office</td>
+                    <td>Transit Systems</td>
+                    <td>188 000 EUR</td>
+                    <td>Value jump</td>
+                    <td>2026-03-18</td>
+                  </tr>
+                  <tr>
+                    <td>Security contract</td>
+                    <td>District office</td>
+                    <td>Shield SK</td>
+                    <td>96 000 EUR</td>
+                    <td>Weak description</td>
+                    <td>2026-03-16</td>
+                  </tr>
+                  <tr>
+                    <td>Facility support</td>
+                    <td>Regional office</td>
+                    <td>Civic Support s.r.o.</td>
+                    <td>76 000 EUR</td>
+                    <td>Missing context</td>
+                    <td>2026-03-14</td>
+                  </tr>
+                  <tr>
+                    <td>Procurement services</td>
+                    <td>Ministry branch</td>
+                    <td>Public Logic</td>
+                    <td>221 000 EUR</td>
+                    <td>Attachment-heavy</td>
+                    <td>2026-03-13</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+
+          <section class="secondary-row">
+            <article class="stopa-card mini-note">
+              <span class="stopa-eyebrow">Focused note</span>
+              <h3>Record context sits below the list</h3>
+              <p>Good for list-first pages where the user needs maximum scan width and secondary analysis comes after.</p>
+            </article>
+
+            <article class="stopa-card mini-note">
+              <span class="stopa-eyebrow">Trend strip</span>
+              <h3>Compact analytics, not competing layout</h3>
+              <div class="stopa-chart-placeholder"></div>
+            </article>
+
+            <article class="stopa-card mini-note stopa-accent-card">
+              <span class="stopa-eyebrow">Selected record</span>
+              <h3>Contract 46581</h3>
+              <p>Same language, less noise. The list is first, the brief is second.</p>
+            </article>
+          </section>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
