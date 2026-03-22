@@ -259,6 +259,7 @@ Rules:
 
 - prefer a warm accent pill by default
 - use a compact brand insert if the full wordmark would otherwise feel too long
+- the brand insert should be a white circular badge when using the square Zlta Stopa mark
 - use a clean icon, not a raw text arrow glyph
 - keep it compact and right-aligned on desktop
 
