@@ -4,6 +4,8 @@
   --stopa-color-surface: #ffffff;
   --stopa-color-surface-muted: #faf7ef;
   --stopa-color-surface-strong: #f1ece3;
+  --stopa-color-field: rgba(251, 248, 241, 0.96);
+  --stopa-color-field-focus: rgba(255, 255, 255, 0.98);
   --stopa-color-text: #131313;
   --stopa-color-text-soft: rgba(19, 19, 19, 0.72);
   --stopa-color-text-faint: rgba(19, 19, 19, 0.52);

@@ -1,12 +1,10 @@
 <section class="stopa-search-stage" id="search">
-  <p class="stopa-search-claim">Hladaj skor, nez sa to strati v sume.</p>
-
   <div class="stopa-search-head">
-    <strong>Search</strong>
+    <p class="stopa-search-kicker">Hladaj v CRZ bez balastu.</p>
     <span class="stopa-shortcut-hint">
-      <span>Press</span>
+      <span>Stlac</span>
       <span class="stopa-shortcut">/</span>
-      <span>to focus search</span>
+      <span>pre vyhladavanie</span>
     </span>
   </div>
 
@@ -17,18 +15,19 @@
         <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
       </svg>
     </div>
-    <input type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+    <input type="search" placeholder="Meno, ICO, dodatok, rezort..." />
     <button class="stopa-button stopa-button-primary" type="button">Hladat</button>
   </div>
 
-  <div class="stopa-filters">
-    <button class="stopa-chip stopa-chip-active" type="button">Vsetko</button>
-    <button class="stopa-chip" type="button">Dlznici</button>
-    <button class="stopa-chip" type="button">Dodatky</button>
-    <button class="stopa-chip" type="button">Velke sumy</button>
-    <button class="stopa-chip" type="button">Prilohy</button>
-    <button class="stopa-chip" type="button">Firmy</button>
+  <div class="stopa-filter-stack">
+    <span class="stopa-filter-label">Rychle filtre</span>
+    <div class="stopa-filters">
+      <button class="stopa-chip stopa-chip-active" type="button">Vsetko</button>
+      <button class="stopa-chip" type="button">Dlznici</button>
+      <button class="stopa-chip" type="button">Dodatky</button>
+      <button class="stopa-chip" type="button">Velke sumy</button>
+      <button class="stopa-chip" type="button">Prilohy</button>
+      <button class="stopa-chip" type="button">Firmy</button>
+    </div>
   </div>
-
-  <p class="stopa-support">One short line, a clear query field, and enough space to invite action.</p>
 </section>

@@ -138,6 +138,11 @@ Rules:
 - elevated enough to read as a distinct shell
 - real logo allowed, but not oversized
 - do not put an extra border around the full logo
+- pair the logo with one short human claim above the product name
+- avoid repeating the suite name and product name in stacked labels
+- core destinations like `Prehľad`, `Zoznam`, `Metodika`, or `Datasette` belong in primary nav
+- reserve the right side for utility actions such as search jump or issue reporting
+- issue-report actions may use a thick accent outline in their default state
 - a search-jump icon in the header is fine
 - page search still lives below the header
 
@@ -153,10 +158,15 @@ The default search-first pattern is:
 
 Rules:
 
+- use one short functional kicker above the field, not a separate centered slogan plus another label
 - search field should feel easy to hit, not monumental
 - aim for roughly `48-56px` desktop search height
 - the entire search shell should be clickable and focus the input
-- keyboard hint should use an OS-style keycap, for example `Press / to focus search`
+- focus should visibly shift the field background, not only add a ring
+- search action should sit flush to the far right edge of the field
+- keyboard hint should use an OS-style keycap, for example `Stlac / pre vyhladavanie`
+- a quick-filter label may sit inline to the left of the chips
+- avoid helper text that only repeats the placeholder
 - placeholder text should be short and concrete
 
 ### Surfaces
@@ -249,6 +259,8 @@ Rules:
 
 - standard KPI cards stay plain
 - at most one KPI in a row should use a stronger accent treatment by default
+- search-first overview pages should prefer six KPIs on desktop, typically a clean `3 x 2`
+- drop the weakest metric rather than forcing an awkward seventh card
 - prefer a subtle top accent for the highlighted KPI
 - do not use the full vertical rail on every KPI
 
@@ -296,6 +308,12 @@ Rules:
 - neutral wrappers
 - restrained grid lines
 - one accent color per chart unless the comparison truly needs more
+- ranking charts should stay mostly monochrome, with highlight used sparingly
+- categorical charts should aggregate the long tail into `Ostatné` when the legend gets noisy
+- avoid rainbow palettes or more than roughly `6-8` clearly distinct category colors in one view
+- detail pages should explicitly label enriched or extracted titles versus the original source title
+- yellow-trace or signal surfaces should use amber signal styling, not destructive red, unless the state is truly an error
+- external suite links should use a proper icon treatment instead of a raw text arrow
 - details should not visually overpower the primary list
 
 ## Color Strategy

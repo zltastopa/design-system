@@ -95,9 +95,8 @@
       .airy-sub {
         margin: 0;
         color: var(--stopa-color-text-soft);
-        font: 700 0.72rem/1.05 var(--stopa-font-ui);
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
+        font: 700 0.78rem/1.18 var(--stopa-font-ui);
+        letter-spacing: -0.01em;
       }
 
       .airy-nav {
@@ -139,6 +138,16 @@
         border-color: var(--shell-edge-strong);
       }
 
+      .airy-action-outline-accent {
+        border: 2px solid var(--stopa-color-product-accent);
+        background: rgba(255, 255, 255, 0.96);
+      }
+
+      .airy-action-outline-accent:hover {
+        border-color: var(--stopa-color-product-accent);
+        background: rgba(255, 249, 219, 0.76);
+      }
+
       .airy-tab-active,
       .airy-action-primary {
         background: var(--stopa-color-product-accent);
@@ -169,13 +178,7 @@
       }
 
       .airy-claim {
-        margin: 0;
-        justify-self: center;
-        max-width: 34rem;
-        text-align: center;
-        color: var(--stopa-color-text-soft);
-        font: 700 0.96rem/1.35 var(--stopa-font-ui);
-        letter-spacing: -0.01em;
+        display: none;
       }
 
       .airy-search-wrap {
@@ -195,10 +198,10 @@
       }
 
       .airy-search-label strong {
-        font: 800 0.75rem/1 var(--stopa-font-ui);
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--stopa-color-text-soft);
+        color: rgba(19, 19, 19, 0.84);
+        font: 700 0.96rem/1.25 var(--stopa-font-ui);
+        letter-spacing: -0.02em;
+        text-transform: none;
       }
 
       .airy-search-label span {
@@ -238,8 +241,22 @@
         padding: 0.42rem 0.5rem 0.42rem 0.72rem;
         border: 1px solid var(--shell-edge-strong);
         border-radius: 1rem;
-        background: rgba(251, 248, 241, 0.96);
+        background: var(--stopa-color-field);
         cursor: text;
+        transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+      }
+
+      .airy-search:hover {
+        border-color: rgba(19, 19, 19, 0.22);
+      }
+
+      .airy-search:focus-within {
+        background: var(--stopa-color-field-focus);
+        box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.12);
+      }
+
+      .airy-search:focus-within .airy-search-icon {
+        background: rgba(255, 196, 0, 0.16);
       }
 
       .airy-search-icon {
@@ -260,18 +277,33 @@
       }
 
       .airy-search input {
+        display: block;
         width: 100%;
         min-width: 0;
         border: 0;
+        border-radius: 0;
         outline: 0;
+        appearance: none;
+        -webkit-appearance: none;
         background: transparent;
+        box-shadow: none;
         color: var(--stopa-color-text);
         font: 700 clamp(0.98rem, 1.45vw, 1.16rem) / 1.18 var(--stopa-font-ui);
         letter-spacing: -0.03em;
+        overflow: visible;
       }
 
       .airy-search input::placeholder {
         color: rgba(19, 19, 19, 0.42);
+        transition: opacity 140ms ease;
+      }
+
+      .airy-search input:focus::placeholder {
+        opacity: 0;
+      }
+
+      .airy-search button {
+        margin-left: auto;
       }
 
       .airy-search-actions {
@@ -286,7 +318,23 @@
         gap: 0.5rem;
         justify-content: center;
         flex-wrap: wrap;
-        padding-top: 0.35rem;
+      }
+
+      .airy-filter-stack {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        gap: 0.72rem 0.9rem;
+      }
+
+      .airy-filter-label {
+        margin: 0;
+        flex: 0 0 auto;
+        color: var(--stopa-color-text-soft);
+        font: 800 0.73rem/1 var(--stopa-font-ui);
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
       }
 
       .airy-filter-row .airy-tab,
@@ -295,19 +343,11 @@
         padding-inline: 0.82rem;
       }
 
-      .airy-support {
-        margin: 0;
-        text-align: center;
-        max-width: 44rem;
-        justify-self: center;
-        color: var(--stopa-color-text-soft);
-        font: var(--stopa-text-body-sm);
-        padding-top: 0.35rem;
-      }
+      .airy-support { display: none; }
 
       .airy-preview {
         display: grid;
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.95rem;
         margin-top: 1rem;
       }
@@ -526,7 +566,7 @@
               <img src="../zlta-stopa.svg" alt="Zlta Stopa" />
             </div>
             <div class="airy-brand-copy">
-              <span class="airy-sub">Stopa OS / Search-First Shell</span>
+              <span class="airy-sub">CRZ bez balastu.</span>
               <h1 class="airy-title">Zmluvy</h1>
             </div>
           </div>
@@ -534,8 +574,10 @@
           <nav class="airy-nav">
             <a class="airy-tab airy-tab-active" href="/">Prehlad</a>
             <a class="airy-tab" href="/">Zoznam</a>
+            <a class="airy-tab" href="/">Hladat</a>
             <a class="airy-tab" href="/">Dalsie filtre</a>
             <a class="airy-tab" href="/">Metodika</a>
+            <a class="airy-tab" href="/">Datasette</a>
           </nav>
 
           <div class="airy-actions">
@@ -545,20 +587,18 @@
                 <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
               </svg>
             </a>
-            <a class="airy-action airy-action-primary" href="/">Dataset</a>
+            <a class="airy-action airy-action-outline-accent" href="/">Nahlasit chybu</a>
           </div>
         </header>
 
         <section class="airy-hero">
-          <p class="airy-claim">Hladaj skor, nez sa to strati v sume.</p>
-
           <div class="airy-search-wrap" id="search">
             <div class="airy-search-label">
-              <strong>Search</strong>
+              <strong>Hladaj v CRZ bez balastu.</strong>
               <span class="airy-shortcut-wrap">
-                <span>Press</span>
+                <span>Stlac</span>
                 <span class="airy-shortcut" aria-label="Keyboard shortcut slash">/</span>
-                <span>to focus search</span>
+                <span>pre vyhladavanie</span>
               </span>
             </div>
 
@@ -569,21 +609,22 @@
                     <path d="M16 16L20.5 20.5" stroke-width="2" stroke-linecap="round" />
                   </svg>
                 </div>
-                <input id="airy-search-input" type="search" placeholder="Skus: Robert Fico, dodatok, ICO, ministerstvo vnutra" />
+                <input id="airy-search-input" type="search" placeholder="Meno, ICO, dodatok, rezort..." />
                 <button class="airy-action airy-action-primary" type="button">Hladat</button>
               </div>
 
-              <div class="airy-filter-row">
-                <button class="airy-tab airy-tab-active" type="button">Vsetko</button>
-                <button class="airy-tab" type="button">Dlznici</button>
-                <button class="airy-tab" type="button">Dodatky</button>
-                <button class="airy-tab" type="button">Velke sumy</button>
-                <button class="airy-tab" type="button">Prilohy</button>
-                <button class="airy-tab" type="button">Firmy</button>
+              <div class="airy-filter-stack">
+                <span class="airy-filter-label">Rychle filtre</span>
+                <div class="airy-filter-row">
+                  <button class="airy-tab airy-tab-active" type="button">Vsetko</button>
+                  <button class="airy-tab" type="button">Dlznici</button>
+                  <button class="airy-tab" type="button">Dodatky</button>
+                  <button class="airy-tab" type="button">Velke sumy</button>
+                  <button class="airy-tab" type="button">Prilohy</button>
+                  <button class="airy-tab" type="button">Firmy</button>
+                </div>
               </div>
             </div>
-
-            <p class="airy-support">One short line, a clear query field, and enough space to invite action.</p>
           </div>
         </section>
 
@@ -602,6 +643,16 @@
             <span class="stopa-eyebrow">Priemerna suma</span>
             <strong>137 tis. EUR</strong>
             <span>Calm numerals, compact hierarchy, no chart tax.</span>
+          </article>
+          <article class="airy-card">
+            <span class="stopa-eyebrow">Bez uvedenej sumy</span>
+            <strong>59 723</strong>
+            <span>Useful as a quality signal without turning the row into an alert board.</span>
+          </article>
+          <article class="airy-card">
+            <span class="stopa-eyebrow">Dodatky</span>
+            <strong>6 779</strong>
+            <span>Operational context that still keeps the overview quiet.</span>
           </article>
           <article class="airy-card airy-card-highlight">
             <span class="stopa-eyebrow">Signal queue</span>

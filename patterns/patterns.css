@@ -57,6 +57,7 @@ button {
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--stopa-shadow-lift);
   backdrop-filter: blur(16px);
+  overflow: visible;
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
   gap: var(--stopa-space-4);
@@ -93,6 +94,12 @@ button {
   gap: 0.08rem;
 }
 
+.stopa-brand-claim {
+  color: var(--stopa-color-text-soft);
+  font: 700 0.78rem/1.18 var(--stopa-font-ui);
+  letter-spacing: -0.01em;
+}
+
 .stopa-eyebrow {
   color: var(--stopa-color-text-soft);
   font: var(--stopa-text-label);
@@ -123,6 +130,7 @@ button {
 }
 
 .stopa-tabs {
+  overflow: visible;
   justify-content: center;
 }
 
@@ -168,6 +176,16 @@ button {
   font-weight: 700;
 }
 
+.stopa-pill-accent-outline {
+  border: 2px solid var(--stopa-color-product-accent);
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.stopa-pill-accent-outline:hover {
+  border-color: var(--stopa-color-product-accent);
+  background: rgba(255, 249, 219, 0.76);
+}
+
 .stopa-icon-pill {
   width: var(--stopa-control-height);
   min-width: var(--stopa-control-height);
@@ -182,16 +200,6 @@ button {
   padding-block: clamp(var(--stopa-space-6), 5vw, var(--stopa-space-10));
 }
 
-.stopa-search-claim {
-  margin: 0;
-  justify-self: center;
-  max-width: 36rem;
-  text-align: center;
-  color: var(--stopa-color-text-soft);
-  font: 700 0.98rem/1.35 var(--stopa-font-ui);
-  letter-spacing: -0.01em;
-}
-
 .stopa-search-head {
   display: flex;
   justify-content: space-between;
@@ -200,11 +208,11 @@ button {
   padding-inline: 0.25rem;
 }
 
-.stopa-search-head strong {
-  font: 800 0.75rem/1 var(--stopa-font-ui);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--stopa-color-text-soft);
+.stopa-search-kicker {
+  margin: 0;
+  color: rgba(19, 19, 19, 0.84);
+  font: 700 0.96rem/1.25 var(--stopa-font-ui);
+  letter-spacing: -0.02em;
 }
 
 .stopa-shortcut-hint {
@@ -239,7 +247,7 @@ button {
   padding: 0.42rem 0.5rem 0.42rem 0.72rem;
   border: var(--stopa-border-strong);
   border-radius: var(--stopa-radius-md);
-  background: rgba(251, 248, 241, 0.96);
+  background: var(--stopa-color-field);
   cursor: text;
   transition:
     border-color var(--stopa-motion-base),
@@ -247,9 +255,13 @@ button {
     background-color var(--stopa-motion-base);
 }
 
-.stopa-searchbar:hover,
+.stopa-searchbar:hover {
+  border-color: var(--stopa-color-line-strong);
+}
+
 .stopa-searchbar:focus-within {
   border-color: var(--stopa-color-line-strong);
+  background: var(--stopa-color-field-focus);
   box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.12);
 }
 
@@ -271,18 +283,29 @@ button {
 }
 
 .stopa-searchbar input {
+  display: block;
   width: 100%;
   min-width: 0;
   border: 0;
+  border-radius: 0;
   outline: 0;
+  appearance: none;
+  -webkit-appearance: none;
   background: transparent;
+  box-shadow: none;
   color: var(--stopa-color-text);
   font: 700 clamp(1rem, 1.4vw, 1.14rem) / 1.18 var(--stopa-font-ui);
   letter-spacing: -0.03em;
+  overflow: visible;
 }
 
 .stopa-searchbar input::placeholder {
   color: rgba(19, 19, 19, 0.42);
+  transition: opacity var(--stopa-motion-fast);
+}
+
+.stopa-searchbar input:focus::placeholder {
+  opacity: 0;
 }
 
 .stopa-searchbar .stopa-button,
@@ -292,8 +315,29 @@ button {
   flex: 0 0 auto;
 }
 
+.stopa-searchbar .stopa-button {
+  margin-left: auto;
+}
+
 .stopa-search-stage .stopa-filters {
   justify-content: center;
+}
+
+.stopa-filter-stack {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--stopa-space-3) var(--stopa-space-4);
+}
+
+.stopa-filter-label {
+  margin: 0;
+  flex: 0 0 auto;
+  color: var(--stopa-color-text-soft);
+  font: var(--stopa-text-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .stopa-support {
@@ -498,6 +542,8 @@ button {
   .stopa-tabs {
     grid-column: 1 / -1;
     justify-content: start;
+    overflow-x: auto;
+    overflow-y: visible;
   }
 }
 
