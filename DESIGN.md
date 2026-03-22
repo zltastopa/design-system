@@ -160,6 +160,7 @@ Rules:
 
 - use one short functional kicker above the field, not a separate centered slogan plus another label
 - search field should feel easy to hit, not monumental
+- the main page search may sit on a brighter white surface than surrounding controls so it reads as the primary instrument
 - aim for roughly `48-56px` desktop search height
 - the entire search shell should be clickable and focus the input
 - focus should visibly shift the field background, not only add a ring
@@ -180,6 +181,7 @@ Rules:
 - subtle shadow
 - flatter controls than cards
 - nested surfaces should differ through tone, not color overload
+- scrollable panels may use a quiet amber scrollbar on a warm track
 
 ### Typography
 

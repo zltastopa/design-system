@@ -186,6 +186,38 @@ button {
   background: rgba(255, 249, 219, 0.76);
 }
 
+.stopa-scroll,
+.stopa-table-wrap {
+  scrollbar-width: thin;
+  scrollbar-color: var(--stopa-color-scroll-thumb) var(--stopa-color-scroll-track);
+}
+
+.stopa-scroll::-webkit-scrollbar,
+.stopa-table-wrap::-webkit-scrollbar {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.stopa-scroll::-webkit-scrollbar-track,
+.stopa-table-wrap::-webkit-scrollbar-track {
+  background: var(--stopa-color-scroll-track);
+  border-radius: var(--stopa-radius-pill);
+}
+
+.stopa-scroll::-webkit-scrollbar-thumb,
+.stopa-table-wrap::-webkit-scrollbar-thumb {
+  border: 0.18rem solid transparent;
+  border-radius: var(--stopa-radius-pill);
+  background: var(--stopa-color-scroll-thumb);
+  background-clip: padding-box;
+}
+
+.stopa-scroll:hover::-webkit-scrollbar-thumb,
+.stopa-table-wrap:hover::-webkit-scrollbar-thumb {
+  background: var(--stopa-color-scroll-thumb-hover);
+  background-clip: padding-box;
+}
+
 .stopa-icon-pill {
   width: var(--stopa-control-height);
   min-width: var(--stopa-control-height);
@@ -247,7 +279,8 @@ button {
   padding: 0.42rem 0.5rem 0.42rem 0.72rem;
   border: var(--stopa-border-strong);
   border-radius: var(--stopa-radius-md);
-  background: var(--stopa-color-field);
+  background: var(--stopa-color-search-surface);
+  box-shadow: var(--stopa-shadow-search);
   cursor: text;
   transition:
     border-color var(--stopa-motion-base),
@@ -257,12 +290,13 @@ button {
 
 .stopa-searchbar:hover {
   border-color: var(--stopa-color-line-strong);
+  box-shadow: 0 16px 34px rgba(17, 17, 17, 0.08), 0 4px 12px rgba(17, 17, 17, 0.05);
 }
 
 .stopa-searchbar:focus-within {
   border-color: var(--stopa-color-line-strong);
-  background: var(--stopa-color-field-focus);
-  box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.12);
+  background: var(--stopa-color-search-surface-focus);
+  box-shadow: var(--stopa-shadow-search), 0 0 0 4px rgba(255, 196, 0, 0.12);
 }
 
 .stopa-search-icon {
@@ -300,7 +334,7 @@ button {
 }
 
 .stopa-searchbar input::placeholder {
-  color: rgba(19, 19, 19, 0.42);
+  color: rgba(19, 19, 19, 0.5);
   transition: opacity var(--stopa-motion-fast);
 }
 

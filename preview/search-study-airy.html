@@ -241,18 +241,20 @@
         padding: 0.42rem 0.5rem 0.42rem 0.72rem;
         border: 1px solid var(--shell-edge-strong);
         border-radius: 1rem;
-        background: var(--stopa-color-field);
+        background: var(--stopa-color-search-surface);
+        box-shadow: var(--stopa-shadow-search);
         cursor: text;
         transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
       }
 
       .airy-search:hover {
         border-color: rgba(19, 19, 19, 0.22);
+        box-shadow: 0 16px 34px rgba(17, 17, 17, 0.08), 0 4px 12px rgba(17, 17, 17, 0.05);
       }
 
       .airy-search:focus-within {
-        background: var(--stopa-color-field-focus);
-        box-shadow: 0 0 0 4px rgba(255, 196, 0, 0.12);
+        background: var(--stopa-color-search-surface-focus);
+        box-shadow: var(--stopa-shadow-search), 0 0 0 4px rgba(255, 196, 0, 0.12);
       }
 
       .airy-search:focus-within .airy-search-icon {
@@ -294,7 +296,7 @@
       }
 
       .airy-search input::placeholder {
-        color: rgba(19, 19, 19, 0.42);
+        color: rgba(19, 19, 19, 0.5);
         transition: opacity 140ms ease;
       }
 
