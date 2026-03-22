@@ -561,6 +561,79 @@ button {
     var(--stopa-color-surface-muted);
 }
 
+.stopa-page-footer {
+  width: min(var(--stopa-layout-max), calc(100vw - (var(--stopa-layout-gutter) * 2)));
+  margin: 0 auto var(--stopa-space-6);
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stopa-suite-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 3rem;
+  padding: 0.34rem 0.42rem;
+  border: 1px solid rgba(223, 158, 0, 0.22);
+  border-radius: var(--stopa-radius-pill);
+  background: var(--stopa-color-product-accent);
+  box-shadow: var(--stopa-shadow-card);
+  color: var(--stopa-color-text);
+  text-decoration: none;
+  transition:
+    transform var(--stopa-motion-base),
+    box-shadow var(--stopa-motion-base),
+    background-color var(--stopa-motion-base);
+}
+
+.stopa-suite-link:hover {
+  transform: translateY(-1px);
+  background: #ffcf2f;
+  box-shadow: var(--stopa-shadow-lift);
+}
+
+.stopa-suite-link-logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.4rem;
+  height: 2.4rem;
+  padding: 0 0.42rem;
+  border-radius: var(--stopa-radius-pill);
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.stopa-suite-link-logo img {
+  display: block;
+  width: 1.95rem;
+  height: auto;
+}
+
+.stopa-suite-link-text {
+  font: 800 1.04rem/1 var(--stopa-font-display);
+  letter-spacing: -0.035em;
+}
+
+.stopa-suite-link-arrow {
+  display: inline-grid;
+  place-items: center;
+  width: 2.05rem;
+  height: 2.05rem;
+  border-radius: var(--stopa-radius-pill);
+  background: rgba(255, 255, 255, 0.68);
+  flex: 0 0 auto;
+}
+
+.stopa-suite-link-arrow svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 @media (max-width: 1100px) {
   .stopa-grid-4,
   .stopa-grid-3 {
@@ -600,5 +673,14 @@ button {
   .stopa-table-head {
     flex-direction: column;
     align-items: start;
+  }
+
+  .stopa-page-footer {
+    justify-content: center;
+  }
+
+  .stopa-suite-link {
+    width: min(100%, 22rem);
+    justify-content: center;
   }
 }

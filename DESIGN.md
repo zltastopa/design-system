@@ -251,6 +251,17 @@ Default search-first dashboard anatomy:
 
 Default list-first or detail-first pages can compress the search stage, but should keep the same shell language.
 
+### Suite Link
+
+Footer or exit links back to the suite should feel branded, not generic.
+
+Rules:
+
+- prefer a warm accent pill by default
+- use a compact brand insert if the full wordmark would otherwise feel too long
+- use a clean icon, not a raw text arrow glyph
+- keep it compact and right-aligned on desktop
+
 ## Component Rules
 
 ### KPI Cards
